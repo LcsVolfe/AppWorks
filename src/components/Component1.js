@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, FlatList, StyleSheet } from 'react-native'
+import { Text, View, FlatList, StyleSheet, Platform } from 'react-native'
 import ItemListagem from './lista/ItemListagem'
 
 export default class Component1 extends React.Component {
@@ -35,10 +35,11 @@ export default class Component1 extends React.Component {
     }
 }
 
+const margem = Platform.OS == 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
     container: {
-      marginTop: 20
+      marginTop: margem
     }
   })
   

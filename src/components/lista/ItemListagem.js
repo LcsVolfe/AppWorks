@@ -7,6 +7,7 @@ import {
   Dimensions,  
   TouchableOpacity
 } from 'react-native';
+import InputComentario from './InputComentario';
 
 const width = Dimensions.get('screen').width;
 export default class ItemListagem extends React.Component {
@@ -14,8 +15,7 @@ export default class ItemListagem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            foto: {...this.props.foto, likers: [{}]}
-            //foto: this.props.foto
+            foto: this.props.foto       
         }
     }
 
@@ -25,10 +25,28 @@ export default class ItemListagem extends React.Component {
             require('./../../../resources/img/s2.png')
     }
 
-    like() {
-        const fotoAtualizada = { ...this.state.foto, likeada:!this.state.foto.likeada }
-        this.setState({ foto: fotoAtualizada })
-    }
+    like(){
+        const { foto } = this.state;
+        let novaLista = [];
+      
+        if(!foto.likeada){
+            novaLista = [
+                ...foto.likers,
+                {login: 'meuUsuario'}
+            ];
+        } else{
+            novaLista = foto.likers.filter(liker => {
+                return liker.login !== 'meuUsuario';
+            })
+        }
+        const fotoAtualizada = {
+            ...foto,
+            likeada: !foto.likeada,
+            likers: novaLista
+        }
+      
+        this.setState({foto: fotoAtualizada});
+      }
 
     exibeLikes(likers) {
         if (likers.length <= 0) 
@@ -51,7 +69,27 @@ export default class ItemListagem extends React.Component {
                 <Text>{foto.comentario}</Text>
             </View>
         );
-     }
+    }
+
+    adicionaComentario(valorComentario, inputComentario) {
+        if(valorComentario === '')
+          return;
+    
+        const novaLista = [...this.state.foto.comentarios, {
+            id: valorComentario,
+            login: 'meuUsuario',
+            texto: valorComentario
+        }];
+    
+        const fotoAtualizada = {
+            ...this.state.foto,
+            comentarios: novaLista
+        }
+    
+        this.setState({foto: fotoAtualizada, valorComentario: ''});
+        inputComentario.clear();
+    
+    }
 
     render() {       
         const { foto } = this.state;
@@ -68,7 +106,15 @@ export default class ItemListagem extends React.Component {
                     <Image style={styles.botaoDeLike} source={this.carregaIcone(foto.likeada)} />
                     </TouchableOpacity>                    
                     {this.exibeLikes(foto.likers)}
-                    {this.exibeLegenda(foto)}                    
+                    {this.exibeLegenda(foto)}      
+
+                    {foto.comentarios.map(comentario => 
+                        <View style={styles.comentario} key={comentario.id}>
+                            <Text style={styles.tituloComentario}>{comentario.login}</Text>
+                            <Text>{comentario.texto}</Text>
+                        </View>
+                    )}   
+                    <InputComentario comentarioCallback={this.adicionaComentario.bind(this)} />
                 </View>
             </View>            
         )
