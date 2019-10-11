@@ -3,8 +3,10 @@ import { Text } from 'react-native'
 import Component1 from '../components/Component1'
 import Component2 from '../components/Component2'
 import Component3 from '../components/Component3'
+import CamComponent from '../components/CamComponent'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import ItemListagem from '../components/lista/ItemListagem'
 
 export default createMaterialBottomTabNavigator({
     Component1: {
@@ -17,7 +19,7 @@ export default createMaterialBottomTabNavigator({
         }
     },
     CamComponent: {
-        screen: Component2,
+        screen: CamComponent,
         navigationOptions: {
             tabBarLabel: 'Cam Component',
             tabBarIcon:({tintColor}) => (
@@ -25,10 +27,10 @@ export default createMaterialBottomTabNavigator({
             )
         }
     },
-    Component3: {
-        screen: Component3,
+    ItemListagem: {
+        screen: ItemListagem,
         navigationOptions: {
-            tabBarLabel: 'Componente 3',
+            tabBarLabel: 'ItemListagem',
             tabBarIcon:({tintColor}) => (
                 <Icon name="pencil" color={tintColor} size={24}></Icon>
             )
