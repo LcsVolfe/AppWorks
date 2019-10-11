@@ -24,7 +24,7 @@ export default class InputComentario extends React.Component {
                     underlineColorAndroid="transparent"
                 />
                 <TouchableOpacity onPress={ () => {
-                        this.props.comentarioCallback(this.state.valorComentario, this.inputComentario);
+                        this.props.comentarioCallback(this.state.valorComentario, this.inputComentario, this.props.idFoto);
                         this.setState({ valorComentario: ''});
                 }}>
                     <Image style={styles.icone} source={ require('../../../resources/img/send.png')  } />
