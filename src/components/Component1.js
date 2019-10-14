@@ -73,7 +73,6 @@ export default class Component1 extends React.Component {
     render() {
         return (
             <View>
-                <Text>xxxxxxxxx</Text>
                 <FlatList style={styles.container}
                     //data={fotos}
                     data={this.state.fotos}

@@ -4,6 +4,45 @@ import { withNavigation } from 'react-navigation'
 
 export class LoginScreen extends React.Component {
 
+    constructor(){
+        super();
+        this.state = {
+            usuario: '',
+            senha: '',
+            mensagem: ''
+        }
+
+
+    }
+
+    efetuarLogin(){
+        const uri = "https://instalura-api.herokuapp.com/api/public/login";
+        const requestInfo = {
+            method: 'POST',
+            body: JSON.stringify({
+                login: this.state.usuario,
+                senha: this.state.senha
+            }),
+            headers: new Headers({
+                'Content-type': 'application/json'
+            })
+        }
+        
+        fetch(uri, requestInfo)
+            .then(response => {
+                if(response.ok)
+                    return response.text();
+                throw new Error("Não foi possível efetuar login.")
+            })
+            .then(token => {
+                AsyncStorage.setItem('token', token)
+                AsyncStorage.setItem('usuario', this.state.usuario)                
+              
+                this.props.navigation.replace('MainScreen')
+                //return AsyncStorage.getItem('token');
+            })
+            .catch(e => this.setState({mensagem: e.message}))
+    }
 
     render() {
         return (
@@ -19,6 +58,7 @@ export class LoginScreen extends React.Component {
                 placeholder = "Usuário"
                 autoCapitalize = 'none'
                 style={styles.textInput}
+                onChangeText={texto => this.setState({usuario: texto})}
             >
             </TextInput>
 
@@ -28,16 +68,16 @@ export class LoginScreen extends React.Component {
                 placeholder = "Senha"
                 autoCapitalize = 'none'
                 style={styles.textInput}
+                onChangeText={texto => this.setState({senha: texto})}
             >
             </TextInput>
 
-            <TouchableHighlight onPress={() => {
-                this.props.navigation.replace('MainScreen')
-                }} 
+            <TouchableHighlight onPress={() => { this.efetuarLogin() }} 
                 style={styles.submit}>
                 <Text style={styles.submitText}>Entrar</Text>
             </TouchableHighlight> 
         
+            <Text style={styles.error}> {this.state.mensagem} </Text>
         </View>)
     }
 }
@@ -78,5 +118,8 @@ const styles = StyleSheet.create({
     submitText: {
         color: 'white',
         textAlign: 'center'
+    },
+    error: {
+        color: 'red'
     }
 })
