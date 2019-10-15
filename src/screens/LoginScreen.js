@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, TextInput, TouchableHighlight, StyleSheet, Text, Image} from 'react-native'
 import { withNavigation } from 'react-navigation'
+import AsyncStorage from '@react-native-community/async-storage';
 
 export class LoginScreen extends React.Component {
 

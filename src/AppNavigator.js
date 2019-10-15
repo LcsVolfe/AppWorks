@@ -5,7 +5,10 @@ import LoginScreen from './screens/LoginScreen'
 import MainScreen from './screens/MainScreen'
 import AsyncStorage from '@react-native-community/async-storage'
 
-const stack = createStackNavigator({    
+const stack = createStackNavigator({
+    LoginScreen: {
+        screen: () => <LoginScreen navigation={this.navigation} />
+    },
     MainScreen: {
         screen: MainScreen,
         navigationOptions: () => ({
@@ -20,12 +23,9 @@ const stack = createStackNavigator({
 
 AsyncStorage.getItem('token').
     then(token => {    
+        console.warn(token)
         if(token) {
-            this.stack.push({
-                LoginScreen: {
-                    screen: () => <LoginScreen navigation={this.navigation} />
-                },
-            })
+            return true;
         }
     })
 
