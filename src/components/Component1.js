@@ -3,6 +3,7 @@ import { Text, View, FlatList, StyleSheet, Platform, ToastAndroid, Button } from
 import ItemListagem from './lista/ItemListagem'
 import AsyncStorage from '@react-native-community/async-storage';
 import InstaluraFetchService from '../services/InstaluraFetchService'
+import { withNavigation } from 'react-navigation'
 
 
 const Toast = (props) => {
@@ -120,7 +121,7 @@ export default class Component1 extends React.Component {
     }
 
     verPerfilCallback() {
-        this.props.navigation.navigate('Component3')
+        this.props.navigation.replace('Component3')
     }
 
     render() {

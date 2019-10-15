@@ -1,9 +1,10 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
+import AsyncStorage from '@react-native-community/async-storage'
 import LoginScreen from './screens/LoginScreen'
 import MainScreen from './screens/MainScreen'
-import AsyncStorage from '@react-native-community/async-storage'
+import CadastroScreen from './screens/CadastroScreen'
 
 const stack = createStackNavigator({
     LoginScreen: {
@@ -12,7 +13,17 @@ const stack = createStackNavigator({
     MainScreen: {
         screen: MainScreen,
         navigationOptions: () => ({
-            title: 'Exemplo Navigation',
+            title: 'AppWorks',
+            headerStyle: {
+                backgroundColor: '#000'
+            },
+            headerTintColor: '#fff'
+        })
+    },
+    CadastroScreen: {
+        screen: CadastroScreen,
+        navigationOptions: () => ({
+            title: 'CadastroScreen',
             headerStyle: {
                 backgroundColor: '#000'
             },

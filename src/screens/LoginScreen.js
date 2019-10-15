@@ -17,7 +17,7 @@ export class LoginScreen extends React.Component {
     }
 
     efetuarLogin(){
-        const uri = "https://instalura-api.herokuapp.com/api/public/login";
+        /*const uri = "https://instalura-api.herokuapp.com/api/public/login";
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
@@ -38,11 +38,11 @@ export class LoginScreen extends React.Component {
             .then(token => {
                 AsyncStorage.setItem('token', token)
                 AsyncStorage.setItem('usuario', this.state.usuario)                
-              
+              */
                 this.props.navigation.replace('MainScreen')
                 //return AsyncStorage.getItem('token');
-            })
-            .catch(e => this.setState({mensagem: e.message}))
+            /*})
+            .catch(e => this.setState({mensagem: e.message}))*/
     }
 
     render() {
@@ -78,6 +78,10 @@ export class LoginScreen extends React.Component {
                 <Text style={styles.submitText}>Entrar</Text>
             </TouchableHighlight> 
         
+            <TouchableHighlight onPress={() => { this.props.navigation.replace('CadastroScreen') }} >
+                <Text > Cadastre-se </Text>
+            </TouchableHighlight>
+            
             <Text style={styles.error}> {this.state.mensagem} </Text>
         </View>)
     }

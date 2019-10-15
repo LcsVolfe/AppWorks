@@ -27,10 +27,10 @@ export default createMaterialBottomTabNavigator({
             )
         }
     },
-    ItemListagem: {
-        screen: ItemListagem,
+    Component3: {
+        screen: Component3,
         navigationOptions: {
-            tabBarLabel: 'ItemListagem',
+            tabBarLabel: 'Component3',
             tabBarIcon:({tintColor}) => (
                 <Icon name="pencil" color={tintColor} size={24}></Icon>
             )
