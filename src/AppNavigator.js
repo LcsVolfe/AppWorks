@@ -9,6 +9,7 @@ import SettingsPage from './components/Page/SettingsPage';
 
 const { width } = Dimensions.get("window");
 
+
 const CustomDrawerNavigation = (props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -33,9 +34,9 @@ const CustomDrawerNavigation = (props) => {
 }
 
 const Drawer = createDrawerNavigator({
-    LoginScreen: {
+    /*LoginScreen: {
       screen: LoginScreen
-    },
+    },*/
     Home: {
       screen: HomePage,
       navigationOptions: {
