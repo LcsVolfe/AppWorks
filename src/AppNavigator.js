@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import {createDrawerNavigator, DrawerNavigatorItems} from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack'
 
 import LoginScreen from './screens/LoginScreen';
 import HomePage from './components/Page/HomePage';
 import SettingsPage from './components/Page/SettingsPage';
+import UserRegistration from './components/Page/UserRegistration';
+import ProviderRegistration from './components/Page/ProviderRegistration';
 
 const { width } = Dimensions.get("window");
 
 
 const CustomDrawerNavigation = (props) => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} >
       <View style={styles.containerFoto}>
         <View style={styles.alignFoto}>
           <Image source={require('../resources/img/no-image.png')} style={styles.imgMenu} />
@@ -22,7 +25,7 @@ const CustomDrawerNavigation = (props) => {
         </View>
       </View>
       <ScrollView>
-        <DrawerNavigatorItems {...props}  activeTintColor='#2196f3' activeBackgroundColor='rgba(0, 0, 0, .04)' inactiveTintColor='rgba(0, 0, 0, .87)' inactiveBackgroundColor='transparent' style={{backgroundColor: '#000000'}} labelStyle={{color: '#ffffff'}}/>
+        <DrawerNavigatorItems {...props}  activeTintColor='#2196f3' activeBackgroundColor='rgba(0, 0, 0, .04)' inactiveTintColor='rgba(0, 0, 0, .87)' inactiveBackgroundColor='transparent' style={{backgroundColor: '#000000'}} labelStyle={{color: 'black'}}/>
       </ScrollView>
       <View style={styles.rodapeList}>
         <View style={{ flexDirection: 'row' }}>
@@ -33,8 +36,13 @@ const CustomDrawerNavigation = (props) => {
   );
 }
 
+const navigation = this.props;
+
 const Drawer = createDrawerNavigator({
     /*LoginScreen: {
+      screen: LoginScreen     
+    },
+   /* CadastroUsuarioComponent: {
       screen: LoginScreen
     },*/
     Home: {
@@ -49,6 +57,18 @@ const Drawer = createDrawerNavigator({
       navigationOptions: {
         title: 'SettingsPage'
       }
+    },
+    UserRegistration: {
+      screen: UserRegistration,
+      navigationOptions: {
+        title: 'UserRegistration'
+      }
+    },
+    ProviderRegistration: {
+      screen: ProviderRegistration,
+      navigationOptions: {
+        title: 'ProviderRegistration'
+      }
     }
   },
   {
@@ -59,6 +79,16 @@ const Drawer = createDrawerNavigator({
     drawerToggleRoute: 'DrawerToggle',
     drawerWidth: (width / 3) * 2
 });
+
+const MyApp = createStackNavigator(
+  {
+    Login: { screen: () => <LoginScreen navigation={this.navigation} /> },
+    HomePage: { screen: HomePage },
+  },
+  {
+    initialRouteName: 'Login',
+  }
+);
 
 const styles = StyleSheet.create({    
     containerFoto: {

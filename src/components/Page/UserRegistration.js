@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Header } from 'react-native-elements';
 import { Left, Right, Icon } from 'native-base';
 
+import HeaderComponent from './HeaderComponent';
 
-class NewsPage extends Component {
+
+class UserRegistration extends Component {
     static navigationOptions = {
         drawerIcon: ({ tintColor }) => (
-            <Icon name="list" style={{ fontSize: 24, color: tintColor }} />
+            <Icon name="notifications" style={{ fontSize: 24, color: tintColor }} />
         )
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Header
-                    leftComponent={<Icon name="menu" onPress={() => this.props.navigation.openDrawer()} />}
-                />
+                <HeaderComponent navigation={this.props.navigation} />
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text>News Page</Text>
+                    <Text>Notification Page</Text>
                 </View>
+
+                
+
             </View>
         );
     }
@@ -31,4 +33,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NewsPage;
+export default UserRegistration;

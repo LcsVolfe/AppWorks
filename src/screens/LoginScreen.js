@@ -2,6 +2,8 @@ import React from 'react'
 import {View, TextInput, TouchableHighlight, StyleSheet, Text, Image} from 'react-native'
 import { withNavigation } from 'react-navigation'
 import AsyncStorage from '@react-native-community/async-storage';
+import HomePage from './../components/Page/HomePage'
+import { NavigationActions } from 'react-navigation';
 
 export class LoginScreen extends React.Component {
 
@@ -17,6 +19,9 @@ export class LoginScreen extends React.Component {
     }
 
     efetuarLogin(){
+        console.log(this.props);
+        //this.props.navigation.navigate({ screen: 'MainSceen' })
+
         /*const uri = "https://instalura-api.herokuapp.com/api/public/login";
         const requestInfo = {
             method: 'POST',
@@ -39,7 +44,7 @@ export class LoginScreen extends React.Component {
                 AsyncStorage.setItem('token', token)
                 AsyncStorage.setItem('usuario', this.state.usuario)                
               */
-                this.props.navigation.replace('MainScreen')
+                //this.props.navigation.replace('MainScreen')
                 //return AsyncStorage.getItem('token');
             /*})
             .catch(e => this.setState({mensagem: e.message}))*/
@@ -78,7 +83,10 @@ export class LoginScreen extends React.Component {
                 <Text style={styles.submitText}>Entrar</Text>
             </TouchableHighlight> 
         
-            <TouchableHighlight onPress={() => { this.props.navigation.replace('CadastroScreen') }} >
+            <TouchableHighlight onPress={() => { 
+                console.log(this.props.navigation);
+                //this.props.navigation.replace('HomePage') 
+            }} >
                 <Text > Cadastre-se </Text>
             </TouchableHighlight>
             

@@ -3,33 +3,34 @@ import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Header, SearchBar } from 'react-native-elements';
 import Hamburger from 'react-native-hamburger';
 import { Left, Right, Icon } from 'native-base';
-import Component3 from '../Component3';
-import HeaderComponent from '../HeaderComponent';
+import HeaderComponent from './HeaderComponent';
+
+
 
 class SettingsPage extends Component {
 
 
+    static navigationOptions = {
+        drawerIcon: ({ tintColor }) => (
+            <Icon name="settings" style={{ fontSize: 24, color: tintColor }} />
+        )
+    }
+
     constructor(props) {
         super(props);
-        this.state = {
-            search: '',
-            searchView: false
-        }
+        this.state = {}
     }
 
     updateSearch = search => {this.setState({ search })};
 
-    render () {
-        const { search } = this.state;
-            
+    render () {   
         return (
-            <View style={{flex: 1}}>     
-                
-                <HeaderComponent/>
+            <View style={styles.container} >              
+                <HeaderComponent navigation={this.props.navigation} />
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text>Settings Page</Text>
+                    <Text>Setting Page</Text>
                 </View>
-                
+
             </View>
         );
     }

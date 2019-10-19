@@ -7,11 +7,11 @@ import { Left, Right, Icon } from 'native-base';
 export default class HeaderComponent extends Component {
 
 
-    static navigationOptions = {
+    /*static navigationOptions = {
         drawerIcon: ({ tintColor }) => (
             <Icon name="settings" style={{ fontSize: 24, color: tintColor }} />
         )
-    }
+    }*/
 
     constructor(props) {
         super(props);
@@ -37,14 +37,24 @@ export default class HeaderComponent extends Component {
             />;      
         return (
             <View style={{flex: 1}}>
-                <ImageBackground source={require('../../resources/img/bg_header.png')} style={styles.bg_img}>
-                    <View style={styles.container}>
-                        <Icon name="menu" onPress={() => this.props.navigation.openDrawer()} />
-                        <Text style={styles.text}>O Me Works conecta você aos melhores prestadores de serviço da sua região</Text>
-                        <Icon name="search" onPress={() => {
+                <ImageBackground source={require('../../../resources/img/bg_header.png')} style={{width: '100%', height: 'auto'}}>
+                    <Header
+                        containerStyle={{
+                            backgroundColor: 'transparent',
+                            justifyContent: 'space-evenly',
+                            height: 'auto',
+                            paddingBottom: 30
+                        }}
+                        rightComponent={<Icon name="search" onPress={() => {
+                            console.log(this.state.searchView);
                             this.setState({searchView: !this.state.searchView});
-                        }} />
-                    </View>
+                        }} />}
+                        centerComponent={{ text: 'O Me Works conecta você aos melhores prestadores de serviço da sua região', style: { color: '#fff', fontSize: 20 } }}
+                        leftComponent={<Icon name="menu" onPress={() => {
+                            //console.log(this.props.navigation.navigate)
+                            this.props.navigation.openDrawer()
+                        }} />}
+                    />
                 </ImageBackground>
                 {this.state.searchView ? searchContainer : false}
 
@@ -67,7 +77,8 @@ const styles = StyleSheet.create({
     },
     text: {
         width: '50%',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white'
     }
 });
 
