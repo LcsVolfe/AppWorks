@@ -102,7 +102,7 @@ export class LoginScreen extends React.Component {
             
                 <TouchableHighlight onPress={() => { 
                     console.log(this.props.navigation);
-                    this.props.navigation.navigate('Cadastro') 
+                    this.props.navigation.navigate('CadastroUsuario') 
                 }} >
                     <Text > Cadastre-se </Text>
                 </TouchableHighlight>

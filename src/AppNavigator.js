@@ -9,6 +9,8 @@ import HomePage from './components/Page/HomePage';
 import SettingsPage from './components/Page/SettingsPage';
 import UserRegistration from './components/Page/UserRegistration';
 import ProviderRegistration from './components/Page/ProviderRegistration';
+import CadastroUsuarioComponent from './components/Page/CadastroUsuarioComponent'
+import CadastroScreen from './screens/CadastroScreen';
 
 const { width } = Dimensions.get("window");
 
@@ -36,15 +38,17 @@ const CustomDrawerNavigation = (props) => {
   );
 }
 
-const navigation = this.props;
 
 const Drawer = createDrawerNavigator({
-    /*LoginScreen: {
+    LoginScreen: {
       screen: LoginScreen     
     },
-   /* CadastroUsuarioComponent: {
-      screen: LoginScreen
-    },*/
+    Cadastro: {
+      screen: CadastroScreen
+    },
+    CadastroUsuario: {
+      screen: CadastroUsuarioComponent
+    },
     Home: {
       screen: HomePage,
       navigationOptions: {
@@ -83,10 +87,12 @@ const Drawer = createDrawerNavigator({
 const MyApp = createStackNavigator(
   {
     Login: { screen: () => <LoginScreen navigation={this.navigation} /> },
+    
     HomePage: { screen: HomePage },
   },
   {
     initialRouteName: 'Login',
+    //contentComponent: CustomDrawerNavigation,
   }
 );
 
