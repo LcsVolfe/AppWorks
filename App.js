@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native';
 import { SharedElement, SharedElementRenderer } from 'react-native-motion';
 
@@ -40,4 +40,4 @@ class DetailPage extends Component {
       </SharedElement>
     );
   }
-}
+}*/

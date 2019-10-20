@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Header, SearchBar } from 'react-native-elements';
-import Hamburger from 'react-native-hamburger';
 import { Left, Right, Icon } from 'native-base';
 
 export default class HeaderComponent extends Component {
