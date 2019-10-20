@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Button, TextInput, TouchableHighlight, PixelRatio, TouchableOpacity } from 'react-native';
-import { Left, Right, Icon } from 'native-base';
+import { Icon } from 'native-base';
 import { Formik } from 'formik';
 import DatePicker from 'react-native-datepicker';
 import CheckBox from 'react-native-check-box';
 import ImagePicker from 'react-native-image-picker';
-
+import { TextInputMask } from 'react-native-masked-text';
+import RNPickerSelect from 'react-native-picker-select';
 import HeaderComponent from './HeaderComponent';
 
 
@@ -25,9 +26,19 @@ class HomePage extends Component {
         this.state = {
             nome: '',
             email: '',
-            dataNascimento:'',
+            dataNascimento: '',
             isCheckedMasculino: false,
-            isCheckedFeminino: false
+            isCheckedFeminino: false,
+            cpf: '',
+            telefone: '',
+            cep: '',
+            cidade: '',
+            estado: '',
+            bairro: '',
+            rua: '',
+            complemento: '',
+            senha: '',
+
         }
         this.selectPhoto = this.selectPhoto.bind(this);
 
@@ -89,51 +100,117 @@ class HomePage extends Component {
                             placeholder='Email'
                         />
 
-                        <DatePicker
-                            style={styles.datePicker}
-                            locale='pt-br'
-                            date={this.state.dataNascimento}
-                            mode="date"
-                            placeholder="selecione a data de nascimento"
-                            format="DD-MM-YYYY"
-                            minDate="01-01-1950"
-                            maxDate="01-01-2100"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: styles.datePickerdateIcon,
-                                dateInput: styles.datePickerdateInput
-                            }}
-                            onDateChange={(dataNascimento) => {this.setState({dataNascimento})}}
-                        />
+                        <View style={styles.containerRowAlign}>
+                            <DatePicker
+                                style={styles.datePicker}
+                                locale='pt-br'
+                                date={this.state.dataNascimento}
+                                mode="date"
+                                placeholder="Data de nascimento"
+                                format="DD-MM-YYYY"
+                                minDate="01-01-1950"
+                                maxDate="01-01-2100"
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                    dateIcon: styles.datePickerdateIcon,
+                                    dateInput: styles.datePickerdateInput
+                                }}
+                                onDateChange={(dataNascimento) => {this.setState({dataNascimento})}}
+                            />                        
 
-                        <View style={{flexDirection: 'row'}}>
-                            <CheckBox
-                                style={styles.checkBox}
-                                leftTextStyle={{flex: 0}}
-                                onClick={()=>{
-                                this.setState({
-                                    isCheckedMasculino:!this.state.isCheckedMasculino,
-                                    isCheckedFeminino: this.state.isCheckedMasculino
-                                })
-                                }}
-                                isChecked={this.state.isCheckedMasculino}
-                                leftText={"Masculino"}
-                            />
-                            <CheckBox
-                                leftTextStyle={{flex: 0}}
-                                style={styles.checkBox}
-                                onClick={()=>{
-                                this.setState({
-                                    isCheckedFeminino:!this.state.isCheckedFeminino,
-                                    isCheckedMasculino: this.state.isCheckedFeminino
-                                })
-                                }}
-                                isChecked={this.state.isCheckedFeminino}
-                                leftText={"Feminino"}
-                            />
+                            <View style={styles.containerSexo}>
+                                <CheckBox
+                                    style={styles.checkBox}
+                                    leftTextStyle={{flex: 0}}
+                                    onClick={()=>{
+                                    this.setState({
+                                        isCheckedMasculino:!this.state.isCheckedMasculino,
+                                        isCheckedFeminino: this.state.isCheckedMasculino
+                                    })
+                                    }}
+                                    isChecked={this.state.isCheckedMasculino}
+                                    leftText={"Masculino"}
+                                />
+                                <CheckBox
+                                    leftTextStyle={{flex: 0}}
+                                    style={styles.checkBox}
+                                    onClick={()=>{
+                                    this.setState({
+                                        isCheckedFeminino:!this.state.isCheckedFeminino,
+                                        isCheckedMasculino: this.state.isCheckedFeminino
+                                    })
+                                    }}
+                                    isChecked={this.state.isCheckedFeminino}
+                                    leftText={"Feminino"}
+                                />
+                            </View>
                         </View>
 
+                        <View style={styles.containerRowAlign}>
+                            <TextInputMask
+                                type={'cpf'}
+                                style={[styles.inputs, styles.inputDuplo]}
+                                value={this.state.cpf}
+                                placeholder='CPF'
+                                onChangeText={text => {
+                                    this.setState({
+                                    cpf: text
+                                    })
+                                }}
+                                ref={(ref) => this.cpfField = ref}
+                            />
+                            <TextInputMask
+                                type={'cel-phone'}
+                                style={[styles.inputs, styles.inputDuplo]}
+                                placeholder='Telefone'
+                                options={{
+                                    maskType: 'BRL',
+                                    withDDD: true,
+                                    dddMask: '(99) '
+                                }}
+                                value={this.state.telefone}
+                                onChangeText={text => {
+                                    this.setState({
+                                    telefone: text
+                                    })
+                                }}
+                                />
+
+                        </View>
+
+                        <Text style={styles.sectionTitle}>Endereço</Text>                        
+             
+                        <View style={styles.containerRowAlign}>
+                            <TextInputMask
+                                type={'zip-code'}
+                                style={[styles.inputs, styles.inputDuplo]}                                
+                                value={this.state.cep}
+                                placeholder='CEP'
+                                onChangeText={cep => {this.setState({cep})}}
+                                />
+                                <View style={[styles.inputs, styles.inputDuplo, {justifyContent: 'center'}]}>
+                                    <RNPickerSelect
+                                        style={[styles.inputs, styles.inputDuplo]}          
+                                        onValueChange={props.handleChange('cidade')}
+                                        placeholder={{
+                                            label: 'Cidade',
+                                            value: null,
+                                        }}
+                                        items={[
+                                            { label: 'Chapecó', value: 'Chapecó' },
+                                            { label: 'Xaxim', value: 'Xaxim' },
+                                            { label: 'Guatambu', value: 'Guatambu' },
+                                        ]}
+                                    />
+                                </View>
+                          
+                        </View>
+                    
+                        <View style={styles.containerRowAlign}>
+                    
+                        </View>                    
+                    
                         <View>
                             <TouchableOpacity  onPress={this.selectPhoto.bind(this)}>
                                 <View style={[styles.img, styles.imgContainer, {marginTop: 30}]}>
@@ -154,9 +231,11 @@ class HomePage extends Component {
                     )}
                 </Formik>
                 <TouchableHighlight onPress={() => { 
-                    console.log(moment.locale('pt-BR'));
+                    const cpfIsValid = this.cpfField.isValid()
+                    console.log(cpfIsValid) // boolean
                     
                 }} ><Text > Cadastre-se </Text></TouchableHighlight>
+
 
             </View>
         );
@@ -173,7 +252,11 @@ const styles = StyleSheet.create({
         borderWidth: 1, 
         width: '80%',
         borderRadius: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        paddingLeft: 10
+    },
+    inputDuplo: {
+        width: '48%'
     },
     form: {
         justifyContent: 'space-evenly',
@@ -181,7 +264,7 @@ const styles = StyleSheet.create({
 
     },
     datePicker: {
-        width: '80%',
+        width: '60%',
         borderRadius: 10,
     },
     datePickerdateIcon: {
@@ -216,7 +299,47 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: '5%',
         marginBottom: 10
+    },
+    containerRowAlign: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+        alignContent: 'center',
+        width: '80%', 
+        marginBottom: 10
+    },
+    containerSexo: {
+        alignItems: 'flex-end'
     }
+    
+
 });
+
+const pickerStyle = {
+	inputIOS: {
+		color: 'white',
+		paddingTop: 13,
+		paddingHorizontal: 10,
+		paddingBottom: 12,
+	},
+	inputAndroid: {
+		color: 'white',
+	},
+	placeholderColor: 'white',
+	underline: { borderTopWidth: 0 },
+	icon: {
+		position: 'absolute',
+		backgroundColor: 'transparent',
+		borderTopWidth: 5,
+		borderTopColor: '#00000099',
+		borderRightWidth: 5,
+		borderRightColor: 'transparent',
+		borderLeftWidth: 5,
+		borderLeftColor: 'transparent',
+		width: 0,
+		height: 0,
+		top: 20,
+		right: 15,
+	},
+};
 
 export default HomePage;
