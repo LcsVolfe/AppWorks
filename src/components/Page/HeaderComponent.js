@@ -2,8 +2,9 @@ import React, { Component, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Header, SearchBar } from 'react-native-elements';
 import { Left, Right, Icon } from 'native-base';
+import { withNavigation } from 'react-navigation'
 
-export default class HeaderComponent extends Component {
+export class HeaderComponent extends Component {
 
 
     /*static navigationOptions = {
@@ -49,7 +50,7 @@ export default class HeaderComponent extends Component {
                         }} />}
                         centerComponent={{ text: 'O Me Works conecta você aos melhores prestadores de serviço da sua região', style: { color: '#fff', fontSize: 20 } }}
                         leftComponent={<Icon name="menu" onPress={() => {
-                            //console.log(this.props.navigation.navigate)
+                            console.log(this.props.navigation)
                             this.props.navigation.openDrawer()
                         }} />}
                     />
@@ -60,6 +61,8 @@ export default class HeaderComponent extends Component {
         );
     }
 }
+
+export default withNavigation(HeaderComponent);
 
 const styles = StyleSheet.create({
     container: {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, StackNavigator } from 'react-navigation';
 import {createDrawerNavigator, DrawerNavigatorItems} from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack'
 
@@ -13,10 +13,11 @@ import CadastroUsuarioComponent from './components/Page/CadastroUsuarioComponent
 import CadastroScreen from './screens/CadastroScreen';
 import { RecuperarSenhaScreen } from './screens/RecuperarSenhaScreen';
 import ListaPorCategoria from './components/Page/ListaPorCategoria';
+
 const { width } = Dimensions.get("window");
 
 
-const CustomDrawerNavigation = (props) => {
+const CustomDrawerNavigation = (props) => {  
   return (
     <SafeAreaView style={{ flex: 1 }} >
       <View style={styles.containerFoto}>
@@ -40,43 +41,10 @@ const CustomDrawerNavigation = (props) => {
 }
 
 
-const Drawer = createDrawerNavigator({
-    LoginScreen: {
-      screen: LoginScreen,
-    },
-    Cadastro: {
-      screen: CadastroScreen
-    },
-    RecuperarSenha: {
-      screen: RecuperarSenhaScreen
-    },
-    ListaPorCategoria: {
-      screen: ListaPorCategoria,
-    },
-    Home: {
-      screen: HomePage,
-      navigationOptions: {
-        title: 'Homepage'
-      }
-    },
-    SettingsPage: {
-      screen: SettingsPage,
-      navigationOptions: {
-        title: 'SettingsPage'
-      }
-    },
-    UserRegistration: {
-      screen: UserRegistration,
-      navigationOptions: {
-        title: 'UserRegistration'
-      }
-    },
-    ProviderRegistration: {
-      screen: ProviderRegistration,
-      navigationOptions: {
-        title: 'ProviderRegistration'
-      }
-    }
+// drawer stack
+const DrawerStack = createDrawerNavigator({
+    Home: {    screen: HomePage   },
+    SettingsPage: {    screen: SettingsPage, navigationOptions: { headerMode: false}  },
   },
   {
     drawerPosition: 'left',
@@ -85,12 +53,31 @@ const Drawer = createDrawerNavigator({
     drawerCloseRoute: 'DrawerClose',
     drawerToggleRoute: 'DrawerToggle',
     drawerWidth: (width / 3) * 2,
-    initialRouteName: 'LoginScreen',
-});
+    initialRouteName: 'Home',
+})
+
+const DrawerNavigation = createStackNavigator({
+    DrawerStack: { screen: DrawerStack, navigationOptions: { header: null }  },
+    ListaPorCategoria: {    screen: ListaPorCategoria, navigationOptions: { header: null }   },
+  })
+
+const LoginStack = createStackNavigator({
+  LoginScreen: {    screen: LoginScreen, navigationOptions: { header: null }   },
+  Cadastro: {    screen: CadastroScreen, navigationOptions: { header: null }   },
+  RecuperarSenha: {    screen: RecuperarSenhaScreen, navigationOptions: { header: null }   }
+  });
+
+const PrimaryNav = createSwitchNavigator({
+  loginStack: { screen: LoginStack, navigationOptions: { header: null } },
+  drawerStack: { screen: DrawerNavigation, navigationOptions: { header: null }  }
+  }, {
+    initialRouteName: 'loginStack',
+  }
+);
 
 
 
-const App = createAppContainer(Drawer);
+const App = createAppContainer(PrimaryNav);
 
 export default App;
 

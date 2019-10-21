@@ -8,8 +8,9 @@ import { NavigationActions } from 'react-navigation';
 
 import HomePage from './../components/Page/HomePage';
 import CadastroUsuarioComponent from '../components/Page/CadastroUsuarioComponent';
-
 export class LoginScreen extends React.Component {
+    
+    //static navigationOptions = { header: null }
 
     constructor(){
         super();

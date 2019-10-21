@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList,ScrollView, Image, Button, StyleSheet, TextInput, SafeAreaView, Dimensions, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
-import { Formik } from 'formik';
-import DatePicker from 'react-native-datepicker';
-import CheckBox from 'react-native-check-box';
-import ImagePicker from 'react-native-image-picker';
-import { TextInputMask } from 'react-native-masked-text';
-import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
 
 import HeaderComponent from './HeaderComponent';
@@ -14,6 +8,8 @@ const width = Dimensions.get('screen').width;
 
 
 class HomePage extends Component {
+    static navigationOptions = { header: null }
+
     static navigationOptions = {
         drawerIcon: ({ tintColor }) => (
             <Icon name="home" style={{ fontSize: 24, color: tintColor }} />
@@ -26,38 +22,38 @@ class HomePage extends Component {
 
     }   
 
-    exibirCategoria(props) {
+    exibirCategoria(idCategoria) {
+        const categoria = this.buscaPorId(idCategoria);
+        //console.log(this.props);
         this.props.navigation.navigate('ListaPorCategoria')
-        //console.log('ssssssssss')
     }
 
     render() {
         const categorias = [
-            {id: 1, categoria: 'Encanador'},
-            {id: 2, categoria: 'Eletricista'},
-            {id: 3, categoria: 'Jardineiro'},
-            {id: 4, categoria: 'Faxineira'},
-            {id: 5, categoria: 'Pedreiro'},
-            {id: 6, categoria: 'Serciços Gerais'},
-            {id: 7, categoria: 'Montador de Móveis'},
-            {id: 9, categoria: 'Reformas e Raparos'},
+            {id: 1, categoria: 'Encanador', img: require('./../../../resources/img/encanador.png')},
+            {id: 2, categoria: 'Eletricista', img: require('../../../resources/img/eletricista.png')},
+            {id: 3, categoria: 'Jardineiro', img: require('../../../resources/img/servicos_gerais.png')},
+            {id: 4, categoria: 'Faxineira', img: require('../../../resources/img/faxineira.png')},
+            {id: 5, categoria: 'Pedreiro', img: require('../../../resources/img/pedreiro.png')},
+            {id: 6, categoria: 'Serciços Gerais', img: require('../../../resources/img/servicos_gerais.png')},
+            {id: 7, categoria: 'Montador de Móveis', img: require('../../../resources/img/motandor_de_moveis.png')},
+            {id: 9, categoria: 'Reformas e Raparos', img: require('../../../resources/img/reformas_e_reparos.png')},
         ];
-
         return (
             <SafeAreaView style={styles.container}>            
                 <ScrollView>
                     
                     <HeaderComponent navigation={this.props.navigation} />
                     <View style={styles.row}>
-                        {categorias.map(categoria =>
+                        {categorias.map(categoria =>                            
                             <View key={categoria.id}>
                                 <TouchableOpacity 
                                     style={styles.box}
-                                    onPress={() => this.exibirCategoria() }
+                                    onPress={() => this.exibirCategoria(categoria.id) }
                                     >
                                         <Text style={styles.tituloCategoria} >{categoria.categoria}</Text>
                                         <Image 
-                                            source={require('../../../resources/img/no-image.png')}
+                                            source={categoria.img}
                                             style={styles.image}
                                         ></Image>
                                 </TouchableOpacity>
