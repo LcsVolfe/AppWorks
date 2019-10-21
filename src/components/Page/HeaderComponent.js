@@ -35,7 +35,7 @@ export default class HeaderComponent extends Component {
                 //platform
             />;      
         return (
-            <View style={{flex: 1}}>
+            <View style={styles.container}>
                 <ImageBackground source={require('../../../resources/img/bg_header.png')} style={{width: '100%', height: 'auto'}}>
                     <Header
                         containerStyle={{
@@ -45,7 +45,6 @@ export default class HeaderComponent extends Component {
                             paddingBottom: 30
                         }}
                         rightComponent={<Icon name="search" onPress={() => {
-                            console.log(this.state.searchView);
                             this.setState({searchView: !this.state.searchView});
                         }} />}
                         centerComponent={{ text: 'O Me Works conecta você aos melhores prestadores de serviço da sua região', style: { color: '#fff', fontSize: 20 } }}
@@ -63,21 +62,8 @@ export default class HeaderComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    bg_img: {
-        width: '100%', 
-        height: 'auto'
-    },
     container: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    text: {
-        width: '50%',
-        textAlign: 'center',
-        color: 'white'
+        flex: 1
     }
 });
 
