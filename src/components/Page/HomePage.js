@@ -27,7 +27,8 @@ class HomePage extends Component {
     }   
 
     exibirCategoria(props) {
-        //this.props.navigation.navigate('ListaPorCategoria')
+        this.props.navigation.navigate('ListaPorCategoria')
+        //console.log('ssssssssss')
     }
 
     render() {
@@ -52,7 +53,7 @@ class HomePage extends Component {
                             <View key={categoria.id}>
                                 <TouchableOpacity 
                                     style={styles.box}
-                                    onPress={ this.exibirCategoria() }
+                                    onPress={() => this.exibirCategoria() }
                                     >
                                         <Text style={styles.tituloCategoria} >{categoria.categoria}</Text>
                                         <Image 
@@ -62,7 +63,7 @@ class HomePage extends Component {
                                 </TouchableOpacity>
                             </View>
                         )}
-                    </View>                
+                    </View>           
                 </ScrollView>
             </SafeAreaView>
         );

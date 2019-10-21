@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {createDrawerNavigator, DrawerNavigatorItems} from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack'
 
@@ -88,24 +88,12 @@ const Drawer = createDrawerNavigator({
     initialRouteName: 'LoginScreen',
 });
 
-const stack = createStackNavigator(
-  {
-    Login: { screen: () => <LoginScreen navigation={this.navigation} /> },
-    Cadastro: {
-      screen: CadastroScreen
-    },
-    RecuperarSenha: {
-      screen: RecuperarSenhaScreen
-    },
-    ListaPorCategoria: {
-      screen: ListaPorCategoria,
-    },
-  },
-  {
-    initialRouteName: 'Login',
-    //contentComponent: CustomDrawerNavigation,
-  }
-);
+
+
+const App = createAppContainer(Drawer);
+
+export default App;
+
 
 const styles = StyleSheet.create({    
     containerFoto: {
@@ -133,7 +121,3 @@ const styles = StyleSheet.create({
         bottom: 20 
     }
 })
-
-const App = createAppContainer(Drawer);
-
-export default App;

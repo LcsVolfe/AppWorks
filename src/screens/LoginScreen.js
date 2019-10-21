@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, TextInput, TouchableHighlight, StyleSheet, Text, Image} from 'react-native'
+import {View, TextInput, TouchableHighlight, StyleSheet,  Image} from 'react-native'
+import {Text} from 'react-native-elements'
 import { withNavigation } from 'react-navigation'
 import AsyncStorage from '@react-native-community/async-storage';
 import CheckBox from 'react-native-check-box';
@@ -57,10 +58,7 @@ export class LoginScreen extends React.Component {
     render() {
         return (
         <View style={styles.container}>        
-            <Image
-                source={require('./../../resources/img/logo.png')}
-                style={styles.image}
-            />
+            <Text h1 style={{marginVertical: 100}}>APPWORKS</Text>
 
             <TextInput
                 editable = {true}
