@@ -23,7 +23,7 @@ class HomePage extends Component {
     }   
 
     exibirCategoria(idCategoria) {
-        const categoria = this.buscaPorId(idCategoria);
+        //const categoria = this.buscaPorId(idCategoria);
         //console.log(this.props);
         this.props.navigation.navigate('ListaPorCategoria')
     }

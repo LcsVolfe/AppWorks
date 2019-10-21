@@ -49,9 +49,10 @@ export class HeaderComponent extends Component {
                             this.setState({searchView: !this.state.searchView});
                         }} />}
                         centerComponent={{ text: 'O Me Works conecta você aos melhores prestadores de serviço da sua região', style: { color: '#fff', fontSize: 20 } }}
-                        leftComponent={<Icon name="menu" onPress={() => {
-                            console.log(this.props.navigation)
-                            this.props.navigation.openDrawer()
+                        leftComponent={<Icon name="menu" onPress={() => {                            
+                            (this.props.navigation.state.routeName == "ListaPorCategoria") ?
+                                this.props.navigation.navigate('Home'):
+                                this.props.navigation.openDrawer()
                         }} />}
                     />
                 </ImageBackground>
