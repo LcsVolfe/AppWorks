@@ -22,26 +22,37 @@ class CadastroUsuarioComponent extends Component {
     constructor() {
         super();
         this.state = {
-            imageSource: null,
-            nome: '',
-            email: '',
-            dataNascimento: '',
-            isCheckedMasculino: false,
-            isCheckedFeminino: false,
-            cpf: '',
-            telefone: '',
-            cep: '',
-            cidade: '',
-            estado: '',
-            bairro: '',
-            rua: '',
-            complemento: '',
-            senha: '',
-
+            foto:'',
+            data_nascimento: ''
         }
         this.selectPhoto = this.selectPhoto.bind(this);
 
     }   
+
+    cadastrarUsuario(values){
+
+        console.log(values)
+
+        const uri = "http://localhost:8080/usuario";
+        const requestInfo = {
+            method: 'POST',
+            body: JSON.stringify(values),/*JSON.stringify({
+                login: this.state.usuario,
+                senha: this.state.senha
+            }),*/
+            headers: new Headers({
+                'Content-type': 'application/json'
+            })
+        }
+     
+        fetch(uri, requestInfo)
+            .then(response => {
+                console.log('requestInfo')
+                if(response.ok)
+                    return response.text();
+                throw new Error("Não foi possível efetuar login.")
+            })
+    }
 
     selectPhoto() {
         const options = {
@@ -64,8 +75,8 @@ class CadastroUsuarioComponent extends Component {
                 console.log("ImagePicker erro: "+response.error)
             } else {
                 let source = {uri: response.uri};
-                this.setState({imageSource: source})
-                console.log('ImageSource: '+this.state.imageSource)
+                this.setState({foto: source})
+                console.log('foto: '+this.state.foto)
             }
         })
     }
@@ -76,8 +87,25 @@ class CadastroUsuarioComponent extends Component {
                 <ScrollView style={styles.container} >              
                     <View style={styles.separator} />
                     <Formik
-                        initialValues={{ nome: '', email: '' }}
-                        onSubmit={values => console.log(values)}
+                        initialValues={{ 
+                            foto: null,
+                            nome: '',
+                            username: '',
+                            email: '',
+                            data_nascimento: '',
+                            isCheckedMasculino: false,
+                            isCheckedFeminino: false,
+                            cpf: '',
+                            telefone: '',
+                            cep: '',
+                            cidade: '',
+                            estado: '',
+                            bairro: '',
+                            rua: '',
+                            complemento: '',
+                            senha: '',
+                        }}
+                        onSubmit={values => this.cadastrarUsuario(values)}
                     >
                         {props => (
                         <View style={styles.form}>
@@ -94,8 +122,9 @@ class CadastroUsuarioComponent extends Component {
                                 <DatePicker
                                     style={styles.datePicker}
                                     locale='pt-br'
-                                    date={this.state.dataNascimento}
+                                    date={this.state.data_nascimento}
                                     mode="date"
+                                    value={props.values.data_nascimento}
                                     placeholder="Data de nascimento"
                                     format="DD-MM-YYYY"
                                     minDate="01-01-1950"
@@ -106,7 +135,7 @@ class CadastroUsuarioComponent extends Component {
                                         dateIcon: styles.datePickerdateIcon,
                                         dateInput: styles.datePickerdateInput
                                     }}
-                                    onDateChange={(dataNascimento) => {this.setState({dataNascimento})}}
+                                    onDateChange={(data_nascimento) => {this.setState({data_nascimento})}}
                                 />                        
 
                                 <View style={styles.containerSexo}>
@@ -201,14 +230,14 @@ class CadastroUsuarioComponent extends Component {
                                 <TextInput
                                     onChangeText={props.handleChange('estado')}
                                     onBlur={props.handleBlur('estado')}
-                                    value={props.values.nome}
+                                    value={props.values.estado}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Estado'
                                 />
                                 <TextInput
                                     onChangeText={props.handleChange('bairro')}
                                     onBlur={props.handleBlur('bairro')}
-                                    value={props.values.nome}
+                                    value={props.values.bairro}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Bairro'
                                 />
@@ -219,14 +248,14 @@ class CadastroUsuarioComponent extends Component {
                                 <TextInput
                                     onChangeText={props.handleChange('rua')}
                                     onBlur={props.handleBlur('rua')}
-                                    value={props.values.nome}
+                                    value={props.values.rua}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Rua'
                                 />
                                 <TextInput
                                     onChangeText={props.handleChange('complemento')}
                                     onBlur={props.handleBlur('complemento')}
-                                    value={props.values.nome}
+                                    value={props.values.complemento}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Complemento'
                                 />
@@ -244,26 +273,27 @@ class CadastroUsuarioComponent extends Component {
                             />
 
                             <TextInput
+                                onChangeText={props.handleChange('username')}
+                                onBlur={props.handleBlur('username')}
+                                value={props.values.username}
+                                style={styles.inputs}
+                                placeholder='User Name'
+                            />
+
+                            <TextInput
                                 onChangeText={props.handleChange('senha')}
                                 onBlur={props.handleBlur('senha')}
-                                value={props.values.email}
+                                value={props.values.senha}
                                 style={styles.inputs}
                                 placeholder='Senha'
                             />
 
-                            <TextInput
-                                onChangeText={props.handleChange('confSenha')}
-                                onBlur={props.handleBlur('confSenha')}
-                                value={props.values.email}
-                                style={styles.inputs}
-                                placeholder='Confirmação Senha'
-                            />
                             <View style={styles.viewImage}>
                                 <TouchableOpacity  onPress={this.selectPhoto.bind(this)}>
                                     <View style={[styles.img, styles.imgContainer, {marginVertical: 20}]}>
-                                        {this.state.imageSource === null ?
+                                        {this.state.foto === null ?
                                         (<Image style={styles.img} source={require('../../../resources/img/no-image.png')}></Image>):                            
-                                        (<Image style={styles.img} source={this.state.imageSource}></Image>)
+                                        (<Image style={styles.img} source={this.state.foto}></Image>)
                                         
                                         }
                                     </View>
