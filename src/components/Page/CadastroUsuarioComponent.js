@@ -22,7 +22,7 @@ class CadastroUsuarioComponent extends Component {
     constructor() {
         super();
         this.state = {
-            foto:'',
+            foto: null,
             data_nascimento: ''
         }
         this.selectPhoto = this.selectPhoto.bind(this);
@@ -31,20 +31,20 @@ class CadastroUsuarioComponent extends Component {
 
     cadastrarUsuario(values){
 
-        console.log(values)
-
         const uri = "http://localhost:8080/usuario";
         const requestInfo = {
             method: 'POST',
-            body: JSON.stringify(values),/*JSON.stringify({
-                login: this.state.usuario,
-                senha: this.state.senha
-            }),*/
+            body: JSON.stringify(values) /*JSON.stringify({
+                login: 'this.state.usuario',
+                senha: 'this.state.senha'
+            })*/,
             headers: new Headers({
+                'Accept':       'application/json',
                 'Content-type': 'application/json'
             })
         }
-     
+
+        console.log(requestInfo)
         fetch(uri, requestInfo)
             .then(response => {
                 console.log('requestInfo')
@@ -88,10 +88,11 @@ class CadastroUsuarioComponent extends Component {
                     <View style={styles.separator} />
                     <Formik
                         initialValues={{ 
+                            id: null,
                             foto: null,
                             nome: '',
                             username: '',
-                            email: '',
+                            //email: '',
                             data_nascimento: '',
                             isCheckedMasculino: false,
                             isCheckedFeminino: false,
@@ -103,7 +104,7 @@ class CadastroUsuarioComponent extends Component {
                             bairro: '',
                             rua: '',
                             complemento: '',
-                            senha: '',
+                            password: '',
                         }}
                         onSubmit={values => this.cadastrarUsuario(values)}
                     >
@@ -265,25 +266,25 @@ class CadastroUsuarioComponent extends Component {
                             <Text style={styles.sectionTitle}>Conta</Text>                        
 
                             <TextInput
-                                onChangeText={props.handleChange('email')}
-                                onBlur={props.handleBlur('email')}
-                                value={props.values.email}
+                                onChangeText={props.handleChange('username')}
+                                onBlur={props.handleBlur('username')}
+                                value={props.values.username}
                                 style={styles.inputs}
                                 placeholder='Email'
                             />
 
-                            <TextInput
+                            {/* <TextInput
                                 onChangeText={props.handleChange('username')}
                                 onBlur={props.handleBlur('username')}
                                 value={props.values.username}
                                 style={styles.inputs}
                                 placeholder='User Name'
-                            />
+                            /> */}
 
                             <TextInput
-                                onChangeText={props.handleChange('senha')}
-                                onBlur={props.handleBlur('senha')}
-                                value={props.values.senha}
+                                onChangeText={props.handleChange('password')}
+                                onBlur={props.handleBlur('password')}
+                                value={props.values.password}
                                 style={styles.inputs}
                                 placeholder='Senha'
                             />
