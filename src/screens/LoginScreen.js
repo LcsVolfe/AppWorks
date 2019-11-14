@@ -26,7 +26,24 @@ export class LoginScreen extends React.Component {
 
     efetuarLogin(){
 
-        this.props.navigation.navigate('Home')
+        fetch(
+            'http://crs.unochapeco.edu.br/crs-api/public/heroes',
+            {
+                method: 'GET',
+                headers:{
+                    Accept: 'application/json'
+                }
+            }            
+        )
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        //this.props.navigation.navigate('Home')
 
         /*const uri = "https://instalura-api.herokuapp.com/api/public/login";
         const requestInfo = {

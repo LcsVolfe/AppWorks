@@ -16,23 +16,23 @@
 //     }
     
 //     getHeroes(){
-//         fetch(
-//             'http://crs.unochapeco.edu.br/crs-api/public/heroes',
-//             {
-//                 method: 'GET',
-//                 headers:{
-//                     Accept: 'application/json'
-//                 }
-//             }            
-//         )
-//         .then((response) => response.json())
-//         .then((responseJson) => {
-//             console.log(responseJson)
-//             this.setState({heroes: responseJson})
-//         })
-//         .catch((error) => {
-//             console.log(error)
-//         })
+        fetch(
+            'http://crs.unochapeco.edu.br/crs-api/public/heroes',
+            {
+                method: 'GET',
+                headers:{
+                    Accept: 'application/json'
+                }
+            }            
+        )
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            this.setState({heroes: responseJson})
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 //     }
 
 //     createHero(){
