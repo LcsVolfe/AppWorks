@@ -36,22 +36,22 @@
 //     }
 
 //     createHero(){
-//         fetch(
-//             'http://crs.unochapeco.edu.br/crs-api/public/heroes',
-//             {
-//                 method: 'POST',
-//                 headers: {
-//                     Accept: 'application/json',
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(this.state.hero)
-//             }
-//         ).then((response) => response.json())
-//         .then((responseJson) => {
-//             console.log(responseJson)
-//         }).catch((error) =>{
-//             console.log(error)
-//         })
+        fetch(
+            'http://crs.unochapeco.edu.br/crs-api/public/heroes',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state.hero)
+            }
+        ).then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+        }).catch((error) =>{
+            console.log(error)
+        })
 //     }
 
 

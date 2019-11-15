@@ -12,19 +12,18 @@ import * as Yup from 'yup';
 
 import HeaderComponent from './HeaderComponent';
 
-const validationSchema = Yup.object().shape({
-    username: Yup.string()
-        .label('Email')
-        .email('Enter a valid email')
-        .required('Please enter a registered email'),
-    password: Yup.string()
-        .label('Password')
-        .required()
-        .min(4, 'Password must have at least 4 characters '),  
-    nome: Yup.string()
-    .label('Nome')
-    .required()
-    .min(4, 'Nome é obrigatório'),  
+const SignupSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  lastName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
 });
 
 const Toast = (props) => {
@@ -156,27 +155,26 @@ class CadastroUsuarioComponent extends Component {
                             password: '',
                         }}
                         onSubmit={values => this.cadastrarUsuario(values)}
-                        validationSchema={validationSchema}
                     >
-                        {/* {props => ( */}
-                        {({ handleChange, values, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur, }) => (
+                        {props => (
                         <View style={styles.form}>
-                             <Text style={styles.sectionTitle}>Dados pessoais</Text>                        
+                           
+                            <Text style={styles.sectionTitle}>Dados pessoais</Text>                        
                             <TextInput
-                                onChangeText={handleChange('nome')}
-                                value={values.nome}
+                                onChangeText={props.handleChange('nome')}
+                                onBlur={props.handleBlur('nome')}
+                                value={props.values.nome}
                                 style={styles.inputs}
                                 placeholder='Nome'
                             />
-                           <Text style={{ color: 'red' }}>{errors.nome}</Text>
 
-                           <View style={styles.containerRowAlign}>
+                            <View style={styles.containerRowAlign}>
                                 <DatePicker
                                     style={styles.datePicker}
                                     locale='pt-br'
                                     date={this.state.data_nascimento}
                                     mode="date"
-                                    value={values.data_nascimento}
+                                    value={props.values.data_nascimento}
                                     placeholder="Data de nascimento"
                                     format="DD-MM-YYYY"
                                     minDate="01-01-1950"
@@ -217,14 +215,18 @@ class CadastroUsuarioComponent extends Component {
                                     />
                                 </View>
                             </View>
- 
+
                             <View style={styles.containerRowAlign}>
                                 <TextInputMask
                                     type={'cpf'}
                                     style={[styles.inputs, styles.inputDuplo]}
-                                    value={values.cpf}
+                                    value={this.state.cpf}
                                     placeholder='CPF'
-                                    onChangeText={handleChange('cpf')}
+                                    onChangeText={text => {
+                                        this.setState({
+                                        cpf: text
+                                        })
+                                    }}
                                     ref={(ref) => this.cpfField = ref}
                                 />
                                 <TextInputMask
@@ -236,8 +238,12 @@ class CadastroUsuarioComponent extends Component {
                                         withDDD: true,
                                         dddMask: '(99) '
                                     }}
-                                    value={values.telefone}
-                                    onChangeText={handleChange('telefone')}
+                                    value={this.state.telefone}
+                                    onChangeText={text => {
+                                        this.setState({
+                                        telefone: text
+                                        })
+                                    }}
                                     />
 
                             </View>
@@ -248,15 +254,14 @@ class CadastroUsuarioComponent extends Component {
                                 <TextInputMask
                                     type={'zip-code'}
                                     style={[styles.inputs, styles.inputDuplo]}                                
-                                    value={values.cep}
+                                    value={this.state.cep}
                                     placeholder='CEP'
-                                    onChangeText={handleChange('cep')}
+                                    onChangeText={cep => {this.setState({cep})}}
                                     />
                                     <View style={[styles.inputs, styles.inputDuplo, {justifyContent: 'center'}]}>
                                         <RNPickerSelect
                                             //style={[styles.inputs, styles.inputDuplo]}          
-                                            onValueChange={handleChange('cidade')}
-                                            value={values.cidade}
+                                            onValueChange={props.handleChange('cidade')}
                                             placeholder={{
                                                 label: 'Cidade',
                                                 value: null,
@@ -271,54 +276,68 @@ class CadastroUsuarioComponent extends Component {
                             
                             </View>
                         
-                            <View style={styles.containerRowAlign}>                               
+                            <View style={styles.containerRowAlign}>
                                 <TextInput
-                                    onChangeText={handleChange('bairro')}
-                                    value={values.bairro}
+                                    onChangeText={props.handleChange('estado')}
+                                    onBlur={props.handleBlur('estado')}
+                                    value={props.values.estado}
+                                    style={[styles.inputs, styles.inputDuplo]}                                
+                                    placeholder='Estado'
+                                />
+                                <TextInput
+                                    onChangeText={props.handleChange('bairro')}
+                                    onBlur={props.handleBlur('bairro')}
+                                    value={props.values.bairro}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Bairro'
                                 />
                         
                             </View >  
 
-                           <View style={styles.containerRowAlign}>
+                            <View style={styles.containerRowAlign}>
                                 <TextInput
-                                    onChangeText={handleChange('rua')}
-                                    value={values.rua}
+                                    onChangeText={props.handleChange('rua')}
+                                    onBlur={props.handleBlur('rua')}
+                                    value={props.values.rua}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Rua'
                                 />
                                 <TextInput
-                                    onChangeText={handleChange('complemento')}
-                                    value={values.complemento}
+                                    onChangeText={props.handleChange('complemento')}
+                                    onBlur={props.handleBlur('complemento')}
+                                    value={props.values.complemento}
                                     style={[styles.inputs, styles.inputDuplo]}                                
                                     placeholder='Complemento'
                                 />
                         
                             </View >  
 
-                            <Text style={styles.sectionTitle}>Conta </Text>                        
+                            <Text style={styles.sectionTitle}>Conta</Text>                        
 
                             <TextInput
-                                onChangeText={handleChange('username')}
-                                // onBlur={handleBlur('username')}
-                                value={values.username}
+                                onChangeText={props.handleChange('username')}
+                                onBlur={props.handleBlur('username')}
+                                value={props.values.username}
                                 style={styles.inputs}
                                 placeholder='Email'
-                                name='email'
                             />
-                            <Text style={{ color: 'red' }}>{errors.username}</Text>
 
-                           
+                            {/* <TextInput
+                                onChangeText={props.handleChange('username')}
+                                onBlur={props.handleBlur('username')}
+                                value={props.values.username}
+                                style={styles.inputs}
+                                placeholder='User Name'
+                            /> */}
+
                             <TextInput
-                                onChangeText={handleChange('password')}
-                                value={values.password}
+                                onChangeText={props.handleChange('password')}
+                                onBlur={props.handleBlur('password')}
+                                value={props.values.password}
                                 style={styles.inputs}
                                 placeholder='Senha'
-                                secureTextEntry
-                                onBlur={handleBlur('password')}
                             />
-                            <Text style={{ color: 'red' }}>{errors.password}</Text>
+
                             <View style={styles.viewImage}>
                                 <TouchableOpacity  onPress={this.selectPhoto.bind(this)}>
                                     <View style={[styles.img, styles.imgContainer, {marginVertical: 20}]}>
@@ -338,11 +357,9 @@ class CadastroUsuarioComponent extends Component {
                                     color='#ea4335'
                                 />
                                 <Button 
-                                    onPress={handleSubmit} 
+                                    onPress={props.handleSubmit} 
                                     title="Salvar" 
                                     color='#00a109'
-                                    disabled={!isValid}
-                                    loading = { isSubmitting }
                                 />
                             </View>
                             

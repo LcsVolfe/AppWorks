@@ -24,26 +24,38 @@ export class LoginScreen extends React.Component {
 
     }
 
+    k = {id: 28, nome: "Iron Man 2"}
+
+
     efetuarLogin(){
 
-        fetch(
-            'http://crs.unochapeco.edu.br/crs-api/public/heroes',
-            {
-                method: 'GET',
-                headers:{
-                    Accept: 'application/json'
-                }
-            }            
-        )
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+        // const uri = "http://localhost:8080/usuario";
+        // const requestInfo = {
+        //     method: 'POST',
+        //     body: JSON.stringify({
+        //         login: 'this.state.usuario',
+        //         senha: 'this.state.senha'
+        //     }),
+        //     headers: new Headers({
+        //         'Accept':       'application/json',
+        //         'Content-type': 'application/json'
+        //     })
+        // }
+        
 
-        //this.props.navigation.navigate('Home')
+        // console.log(requestInfo)
+
+        // fetch(uri, requestInfo)
+        //     .then(response => {
+        //         console.log('requestInfo')
+        //         if(response.ok)
+        //             return response.text();
+        //         throw new Error("Não foi possível efetuar login.")
+        //     })
+
+        
+
+        this.props.navigation.navigate('Home')
 
         /*const uri = "https://instalura-api.herokuapp.com/api/public/login";
         const requestInfo = {
@@ -74,6 +86,25 @@ export class LoginScreen extends React.Component {
     }
 
     render() {
+
+        fetch(
+            'http://crs.unochapeco.edu.br/crs-api/public/heroes',
+            {
+                method: 'GET',
+                headers:{
+                    Accept: 'application/json'
+                }
+            }            
+        )
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)      
+        })
+        .catch((error) => {
+            console.log(error)
+      })
+
+      
         return (
         <View style={styles.container}>        
             <Text h1 style={{marginVertical: 100}}>APPWORKS</Text>
