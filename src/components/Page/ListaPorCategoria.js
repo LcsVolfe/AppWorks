@@ -26,7 +26,7 @@ export default class ListaPorCategoria extends React.Component {
     
     getAd(idCategoria){
         fetch(
-            'http://192.168.0.107:8080/anuncio?categoria='+idCategoria,
+            'http://192.168.47.153:8080/anuncio?categoria='+idCategoria,
             {
                 method: 'GET',
                 headers:{
@@ -53,30 +53,18 @@ export default class ListaPorCategoria extends React.Component {
     }
 
     render() {  
-        const props = this.props.navigation;
-        //this.getAd(props.state.params.idCategoria)
-        const perfis = [
-            {id: 1, usuario: 'INNOVA ENCANAMENTOS', descricao: 'Innova encanamentos pensa em todo os detalhes para a execução de um bom serviço, enviaremos um orçamento detalhado do seu pedido'},
-            {id: 2, usuario: 'PALMAS ENCANAMENTOS', descricao: 'Especialista em encanamentos prediais e residenciais. Redes de esgoto e Pluvial, água quente e fria e redes de PPCI.'},
-            {id: 3, usuario: 'TIGRE', descricao: 'Na hora de construir ou reformar, conte sempre com um profissional. São mais de 75 anos de história e inovação.'},
-            {id: 4, usuario: 'CLODOALDO SLOVAK CONSTRUÇÕES-ME', descricao: 'Trabalhamos com água quente, fria, tubulações de cobre, pvc, galvanizado, reparos em geral, troca de colunas em prédios, residências...'},
-            {id: 5, usuario: 'SLOVAK CONSTRUÇÕES-ME', descricao: 'Trabalhamos com água quente, fria, tubulações de cobre, pvc, galvanizado, reparos em geral, troca de colunas em prédios, residências...'},
-            {id: 6, usuario: 'CLODOALDO', descricao: 'Trabalhamos com água quente, fria, tubulações de cobre, pvc, galvanizado, reparos em geral, troca de colunas em prédios, residências...'},
-        ];
-
-        
-
+        const props = this.props.navigation; 
         return (        
             <SafeAreaView style={styles.container}>        
                 <ScrollView>
                     <HeaderComponent navigation={props} />
                     <ScrollView >
-                        {perfis.map(perfil =>
+                        {this.state.anuncios.map(perfil =>
                             <View key={perfil.id}>
                                 <TouchableOpacity 
                                     style={styles.box}
-                                    //onPress={ () => console.log(props.navigate('Home')) }
-                                    onPress={ () => console.log( this.props.navigation.goBack()) }
+                                    onPress={ () => console.log(props.navigate('DetalheAnuncio')) }
+                                    // onPress={ () => console.log( this.props.navigation.goBack()) }
                                     >
                                         <Image 
                                             source={require('../../../resources/img/no-image.png')}

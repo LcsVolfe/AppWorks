@@ -11,6 +11,7 @@ import UserRegistration from './components/Page/UserRegistration';
 import ProviderRegistration from './components/Page/ProviderRegistration';
 import CadastroUsuarioComponent from './components/Page/CadastroUsuarioComponent'
 import CadastroScreen from './screens/CadastroScreen';
+import DetalheScreen from './screens/DetalheScreen';
 import { RecuperarSenhaScreen } from './screens/RecuperarSenhaScreen';
 import ListaPorCategoria from './components/Page/ListaPorCategoria';
 
@@ -59,6 +60,7 @@ const DrawerStack = createDrawerNavigator({
 const DrawerNavigation = createStackNavigator({
     DrawerStack: { screen: DrawerStack, navigationOptions: { header: null }  },
     ListaPorCategoria: {    screen: ListaPorCategoria, navigationOptions: { header: null }   },
+    DetalheAnuncio: {    screen: DetalheScreen, navigationOptions: { header: null }   },
   })
 
 const LoginStack = createStackNavigator({
