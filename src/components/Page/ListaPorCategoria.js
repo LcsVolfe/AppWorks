@@ -18,12 +18,43 @@ export default class ListaPorCategoria extends React.Component {
 
     constructor() {
         super();
+        this.state= {
+            anuncios: []
+        }
+
     }
     
+    getAd(idCategoria){
+        fetch(
+            'http://192.168.0.107:8080/anuncio?categoria='+idCategoria,
+            {
+                method: 'GET',
+                headers:{
+                    Accept: 'application/json',
+                    'Content-type': 'application/json'                    
+                }/*,
+                params: {
+                    categoria: props.state.params.idCategoria
+                }*/
+            }            
+        )
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            this.setState({anuncios: responseJson})
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
+    componentDidMount() {
+        this.getAd(this.props.navigation.state.params.idCategoria)
+    }
 
     render() {  
         const props = this.props.navigation;
-        console.log(props.state.params.idCategoria)
+        //this.getAd(props.state.params.idCategoria)
         const perfis = [
             {id: 1, usuario: 'INNOVA ENCANAMENTOS', descricao: 'Innova encanamentos pensa em todo os detalhes para a execução de um bom serviço, enviaremos um orçamento detalhado do seu pedido'},
             {id: 2, usuario: 'PALMAS ENCANAMENTOS', descricao: 'Especialista em encanamentos prediais e residenciais. Redes de esgoto e Pluvial, água quente e fria e redes de PPCI.'},
@@ -32,7 +63,9 @@ export default class ListaPorCategoria extends React.Component {
             {id: 5, usuario: 'SLOVAK CONSTRUÇÕES-ME', descricao: 'Trabalhamos com água quente, fria, tubulações de cobre, pvc, galvanizado, reparos em geral, troca de colunas em prédios, residências...'},
             {id: 6, usuario: 'CLODOALDO', descricao: 'Trabalhamos com água quente, fria, tubulações de cobre, pvc, galvanizado, reparos em geral, troca de colunas em prédios, residências...'},
         ];
+
         
+
         return (        
             <SafeAreaView style={styles.container}>        
                 <ScrollView>
