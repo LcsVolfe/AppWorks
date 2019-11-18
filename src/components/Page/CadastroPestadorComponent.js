@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, Button, StyleSheet, TextInput, SafeAreaView, PixelRatio, TouchableOpacity } from 'react-native';
+import { View, ScrollView, ToastAndroid, Image, Button, StyleSheet, TextInput, SafeAreaView, PixelRatio, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
 import { Formik } from 'formik';
 import DatePicker from 'react-native-datepicker';
@@ -11,6 +11,19 @@ import { Text } from 'react-native-elements';
 
 import HeaderComponent from './HeaderComponent';
 
+const Toast = (props) => {
+    if (props.visible) {
+        ToastAndroid.showWithGravityAndOffset(
+            props.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+        );
+      return null;
+    }
+    return null;
+};
 
 class CadastroPestadorComponent extends Component {
     static navigationOptions = {
@@ -23,25 +36,48 @@ class CadastroPestadorComponent extends Component {
         super();
         this.state = {
             imageSource: null,
-            nome: '',
-            email: '',
-            dataNascimento: '',
-            isCheckedMasculino: false,
-            isCheckedFeminino: false,
-            cpf: '',
-            telefone: '',
-            cep: '',
-            cidade: '',
-            estado: '',
-            bairro: '',
-            rua: '',
-            complemento: '',
-            senha: '',
-
+            visible: false
         }
         this.selectPhoto = this.selectPhoto.bind(this);
 
     }   
+
+    handleButtonPress = () => {
+        this.setState(
+            {
+                visible: true,
+            },
+            () => {
+                this.hideToast();
+            },
+        );
+    };
+
+    hideToast = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+    cadastrarUsuario(values){
+        fetch(
+            'http://192.168.0.107:8080/usuario',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
+            }
+        ).then((response) => response.json())
+        .then((responseJson) => {
+            this.handleButtonPress()
+            this.props.navigation.navigate('LoginScreen')
+        }).catch((error) =>{
+            console.log(error)
+        })
+    }
 
     selectPhoto() {
         const options = {
@@ -73,27 +109,39 @@ class CadastroPestadorComponent extends Component {
     render() {
         return (
             <SafeAreaView style={{flex: 1, backgroundColor: '#bacbe4'}}>
+                <Toast visible={this.state.visible} message="Usuário criado com sucesso!" />
+
                 <ScrollView style={styles.container} >      
                     <View style={styles.separator} />
                     <Formik
-                        initialValues={{ nome: '', email: '' }}
-                        onSubmit={values => console.log(values)}
+                        initialValues={{ 
+                            id: null,
+                            razao_social: '', 
+                            nome_fantasia: '',
+                            username: '',
+                            experiencias: '',
+                            telefone: '',
+                            password: '',
+                            descricao: '',
+                            data_nascimento: '10-10-1990' 
+                        }}
+                        onSubmit={values => this.cadastrarUsuario(values)}
                     >
                         {props => (
                         <View style={styles.form}>
                             <Text style={styles.sectionTitle}>Dados Empresariais</Text>                        
                             <TextInput
-                                onChangeText={props.handleChange('razaoSocial')}
-                                onBlur={props.handleBlur('razaoSocial')}
-                                value={props.values.razaoSocial}
+                                onChangeText={props.handleChange('razao_social')}
+                                // onBlur={props.handleBlur('razao_social')}
+                                value={props.values.razao_social}
                                 style={styles.inputs}
                                 placeholder='Razão Social'
                             />
 
                             <TextInput
-                                onChangeText={props.handleChange('nomeFantasia')}
-                                onBlur={props.handleBlur('nomeFantasia')}
-                                value={props.values.nomeFantasia}
+                                onChangeText={props.handleChange('nome_fantasia')}
+                                // onBlur={props.handleBlur('nome_fantasia')}
+                                value={props.values.nome_fantasia}
                                 style={styles.inputs}
                                 placeholder='Nome Fantasia'
                             />
@@ -107,8 +155,7 @@ class CadastroPestadorComponent extends Component {
                                     withDDD: true,
                                     dddMask: '(99) '
                                 }}
-                                value={this.state.contato}
-                                onChangeText={contato => {this.setState({contato})}}
+                                value={props.values.telefone}
                             />
 
                            
@@ -117,18 +164,39 @@ class CadastroPestadorComponent extends Component {
                 
                            
                             <TextInput
-                                onChangeText={props.handleChange('detalhesExperiencia')}
-                                onBlur={props.handleBlur('detalhesExperiencia')}
-                                value={props.values.detalhesExperiencia}
+                                onChangeText={props.handleChange('experiencias')}
+                                // onBlur={props.handleBlur('experiencias')}
+                                value={props.values.experiencias}
                                 style={[styles.inputs, styles.inputDuplo]}                                
                                 placeholder='Descreva detalhadamente suas experiências profissionais'
                             />
                             <TextInput
-                                onChangeText={props.handleChange('suaDescricao')}
-                                onBlur={props.handleBlur('suaDescricao')}
-                                value={props.values.suaDescricao}
+                                onChangeText={props.handleChange('descricao')}
+                                // onBlur={props.handleBlur('suaDescricao')}
+                                value={props.values.descricao}
                                 style={[styles.inputs, styles.inputDuplo]}                                
                                 placeholder='Sua descrição'
+                            />
+
+                            <Text style={styles.sectionTitle}>Conta </Text>                        
+
+                            <TextInput
+                                onChangeText={props.handleChange('username')}
+                                // onBlur={handleBlur('username')}
+                                value={props.values.username}
+                                style={styles.inputs}
+                                placeholder='Email'
+                                name='email'
+                            />
+
+
+                            <TextInput
+                                onChangeText={props.handleChange('password')}
+                                value={props.values.password}
+                                style={styles.inputs}
+                                placeholder='Senha'
+                                secureTextEntry
+                                // onBlur={handleBlur('password')}
                             />
                         
                             

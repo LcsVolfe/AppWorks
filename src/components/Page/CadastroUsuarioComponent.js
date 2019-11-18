@@ -80,7 +80,6 @@ class CadastroUsuarioComponent extends Component {
 
     cadastrarUsuario(values){
 
-        //console.log(values)
         fetch(
             'http://192.168.0.107:8080/usuario',
             {

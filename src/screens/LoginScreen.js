@@ -24,53 +24,29 @@ export class LoginScreen extends React.Component {
 
     }
 
-    k = {id: 28, nome: "Iron Man 2"}
-
-
     efetuarLogin(){
-
-        // const uri = "http://localhost:8080/usuario";
-        // const requestInfo = {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         login: 'this.state.usuario',
-        //         senha: 'this.state.senha'
-        //     }),
-        //     headers: new Headers({
-        //         'Accept':       'application/json',
-        //         'Content-type': 'application/json'
-        //     })
-        // }
-        
-
-        // console.log(requestInfo)
-
-        // fetch(uri, requestInfo)
-        //     .then(response => {
-        //         console.log('requestInfo')
-        //         if(response.ok)
-        //             return response.text();
-        //         throw new Error("Não foi possível efetuar login.")
-        //     })
-
-        
 
         this.props.navigation.navigate('Home')
 
-        /*const uri = "https://instalura-api.herokuapp.com/api/public/login";
+        // const uri = "http://192.168.0.107:8080/oauth";
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
+                grant_type: "password",
                 login: this.state.usuario,
                 senha: this.state.senha
             }),
             headers: new Headers({
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': 'Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==',
+                Accept: 'application/json'
             })
         }
+        console.log(requestInfo)
         
-        fetch(uri, requestInfo)
+        /*fetch("http://192.168.0.107:8080/oauth", requestInfo)
             .then(response => {
+                console.log(response)
                 if(response.ok)
                     return response.text();
                 throw new Error("Não foi possível efetuar login.")
@@ -78,33 +54,14 @@ export class LoginScreen extends React.Component {
             .then(token => {
                 AsyncStorage.setItem('token', token)
                 AsyncStorage.setItem('usuario', this.state.usuario)                
-              */
-                //this.props.navigation.replace('HomePage')
-                //return AsyncStorage.getItem('token');
-            /*})
+              
+                this.props.navigation.replace('HomePage')
+                return AsyncStorage.getItem('token');
+            })
             .catch(e => this.setState({mensagem: e.message}))*/
     }
 
-    render() {
-
-        fetch(
-            'http://crs.unochapeco.edu.br/crs-api/public/heroes',
-            {
-                method: 'GET',
-                headers:{
-                    Accept: 'application/json'
-                }
-            }            
-        )
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson)      
-        })
-        .catch((error) => {
-            console.log(error)
-      })
-
-      
+    render() {      
         return (
         <View style={styles.container}>        
             <Text h1 style={{marginVertical: 100}}>APPWORKS</Text>
@@ -145,6 +102,7 @@ export class LoginScreen extends React.Component {
                 </View>
 
             <View style={styles.viewBtnLogin}>
+                <Text style={styles.error}> {this.state.mensagem}</Text>
                 <TouchableHighlight onPress={() => { this.efetuarLogin() }} 
                     style={styles.submit}>
                     <Text style={styles.submitText}>Entrar</Text>
@@ -157,7 +115,6 @@ export class LoginScreen extends React.Component {
                     <Text > Cadastre-se </Text>
                 </TouchableHighlight>
                 
-                <Text style={styles.error}> {this.state.mensagem} </Text>
             </View>
         </View>)
     }

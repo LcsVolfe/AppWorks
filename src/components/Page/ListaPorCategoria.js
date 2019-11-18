@@ -23,7 +23,7 @@ export default class ListaPorCategoria extends React.Component {
 
     render() {  
         const props = this.props.navigation;
-        
+        console.log(props.state.params.idCategoria)
         const perfis = [
             {id: 1, usuario: 'INNOVA ENCANAMENTOS', descricao: 'Innova encanamentos pensa em todo os detalhes para a execução de um bom serviço, enviaremos um orçamento detalhado do seu pedido'},
             {id: 2, usuario: 'PALMAS ENCANAMENTOS', descricao: 'Especialista em encanamentos prediais e residenciais. Redes de esgoto e Pluvial, água quente e fria e redes de PPCI.'},
