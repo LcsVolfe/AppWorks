@@ -42,7 +42,6 @@ export class LoginScreen extends React.Component {
                 Accept: 'application/json'
             })
         }
-        console.log(requestInfo)
         
         /*fetch("http://192.168.0.107:8080/oauth", requestInfo)
             .then(response => {

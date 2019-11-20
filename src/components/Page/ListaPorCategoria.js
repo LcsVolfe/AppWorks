@@ -24,9 +24,9 @@ export default class ListaPorCategoria extends React.Component {
 
     }
     
-    getAd(idCategoria){
+    getAds(idCategoria){
         fetch(
-            'http://192.168.47.153:8080/anuncio?categoria='+idCategoria,
+            'http://192.168.0.107:8080/anuncio?categoria='+idCategoria,
             {
                 method: 'GET',
                 headers:{
@@ -40,7 +40,7 @@ export default class ListaPorCategoria extends React.Component {
         )
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
+            // console.log(responseJson)
             this.setState({anuncios: responseJson})
         })
         .catch((error) => {
@@ -49,39 +49,35 @@ export default class ListaPorCategoria extends React.Component {
     }
 
     componentDidMount() {
-        this.getAd(this.props.navigation.state.params.idCategoria)
+        this.getAds(this.props.navigation.state.params.idCategoria)
     }
 
     render() {  
         const props = this.props.navigation; 
         return (        
-            <SafeAreaView style={styles.container}>        
-                <ScrollView>
-                    <HeaderComponent navigation={props} />
+            <SafeAreaView style={styles.container}>  
+                <ScrollView >
+                    <HeaderComponent navigation={props}  />
                     <ScrollView >
                         {this.state.anuncios.map(perfil =>
                             <View key={perfil.id}>
                                 <TouchableOpacity 
                                     style={styles.box}
-                                    onPress={ () => console.log(props.navigate('DetalheAnuncio')) }
-                                    // onPress={ () => console.log( this.props.navigation.goBack()) }
+                                    onPress={ () => console.log(props.navigate('DetalheAnuncio', {idAnuncio: perfil.id})) }
                                     >
                                         <Image 
                                             source={require('../../../resources/img/no-image.png')}
                                             style={styles.image}
                                         ></Image>
                                         <View style={{width: '60%'}}>
-                                            <Text style={styles.tituloCategoria}>{perfil.usuario}</Text>
+                                            <Text style={styles.tituloCategoria}>{perfil.titulo}</Text>
                                             <Text style={styles.descricao} >{perfil.descricao}</Text>
                                         </View>
                                 </TouchableOpacity>
                             </View>
                         )}
-                    </ScrollView>      
-                    
-                
-                </ScrollView>
-
+                    </ScrollView>          
+                </ScrollView>      
             </SafeAreaView>            
         )
     }
@@ -111,6 +107,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
-        padding: 5
+        padding: 5,
+        height: 60
     }
 })

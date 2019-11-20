@@ -4,20 +4,49 @@ import { Icon } from 'native-base';
 import { Text } from 'react-native-elements';
 
 const width = Dimensions.get('screen').width;
+const height = Dimensions.get('screen').height;
 
 
 class DetalheScreen extends Component {
     
     constructor() {
         super();
-        this.state = { }
+        this.state = {
+            anuncio: null
+        }
 
     }   
 
-    exibirCategoria(idCategoria) {
-        //const categoria = this.buscaPorId(idCategoria);
-        //console.log(this.props);
-        this.props.navigation.navigate('ListaPorCategoria',{idCategoria})
+    getAd(idAnuncio){
+        fetch(
+            'http://192.168.0.107:8080/anuncio/'+idAnuncio,
+            {
+                method: 'GET',
+                headers:{
+                    Accept: 'application/json',
+                    'Content-type': 'application/json'                    
+                }/*,
+                params: {
+                    categoria: props.state.params.idCategoria
+                }*/
+            }            
+        )
+        .then((response) => response.json())
+        .then((responseJson) => {
+            // console.log(responseJson)
+            this.setState({anuncio: responseJson})
+            console.log(this.state.anuncio.usuario.nome_fantasia)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        
+
+    }
+
+    componentDidMount() {
+        this.getAd(this.props.navigation.state.params.idAnuncio)
     }
 
     render() {
@@ -25,25 +54,30 @@ class DetalheScreen extends Component {
         return (
             <SafeAreaView style={styles.container}>            
                 <ScrollView style={styles.scrollView}>
-                    <Image 
-                        source={require('../../resources/img/no-image.png')}
-                        style={styles.image}
-                    ></Image>                    
-                    <View style={styles.row}>
-                        <Text>NOME DO PRESTADOR</Text>  
-                        <Text>Descicao do anuncio do prestador</Text>  
-                        <Text>Descricao do prestador</Text>
-                        <Text>Experiencia do prestador</Text>
+                    <View style={styles.col}>
+                        <Image 
+                            source={require('../../resources/img/no-image.png')}
+                            style={styles.image}
+                        ></Image>                    
+                        <View style={styles.row}>
+                            <Text style={styles.titulo}>{(this.state.anuncio != null)?this.state.anuncio.titulo:''}</Text>  
+                            <Text style={styles.sectionTitle}>Descrição:</Text>                        
+                            <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.descricao:''}</Text>  
+                            <Text style={styles.sectionTitle}>Prestador:</Text>                        
+                            <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.usuario.descricao:''}</Text>
+                            <Text style={styles.sectionTitle}>Experiências:</Text>                        
+                            <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.usuario.experiencias:''}</Text>
+                        </View>
                     </View>
-                    <TouchableHighlight 
-                        style={styles.BtnOrcamento}
-                        onPress={() => { 
-                            console.log(this.props.navigation);
-                            //this.props.navigation.navigate('Cadastro') 
-                    }} >
-                        <Text style={{color:'white'}}> Fazer Orçamento </Text>
-                    </TouchableHighlight>
                 </ScrollView>
+                <TouchableHighlight 
+                    style={styles.BtnOrcamento}
+                    onPress={() => { 
+                        this.props.navigation.goBack()
+                        //this.props.navigation.navigate('Cadastro') 
+                }} >
+                    <Text style={{color:'white'}}> Fazer Orçamento </Text>
+                </TouchableHighlight>
             </SafeAreaView>
         );
     }
@@ -53,17 +87,18 @@ class DetalheScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'column',
     },
     scrollView:{
-        backgroundColor: '#bacbe4',        
+        backgroundColor: '#bacbe4',     
+    },
+    col: {
+        flexDirection: 'column',
     },
     row:{
         backgroundColor: '#bacbe4',
-        // alignItems: 'center',
         padding: 20,
         flexDirection: 'column',
-        // justifyContent: 'space-evenly',
-        // alignSelf: 'flex-start',
     },
     image: {
         width: width*0.4, 
@@ -72,12 +107,28 @@ const styles = StyleSheet.create({
         marginTop: 40
     },
     BtnOrcamento: { 
-        width: '100%', 
-        height:'100%', 
+        width: '80%', 
+        height: 30, 
+        paddingTop: 5,
         backgroundColor: 'blue', 
         alignItems: 'center',
         borderRadius: 10,
-        alignSelf: 'flex-end'
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 20,
+    },
+    titulo: {
+        fontWeight: 'bold',
+        fontSize: 18
+    },
+    descricao: {
+        marginTop: 5
+    },
+    sectionTitle: {
+        alignSelf: 'flex-start',
+        marginTop: 5,
+        fontSize: 16
     }
+
 });
 export default DetalheScreen;

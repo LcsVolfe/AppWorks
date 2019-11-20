@@ -11,6 +11,7 @@ import UserRegistration from './components/Page/UserRegistration';
 import ProviderRegistration from './components/Page/ProviderRegistration';
 import CadastroUsuarioComponent from './components/Page/CadastroUsuarioComponent'
 import CadastroScreen from './screens/CadastroScreen';
+import CadastroAnuncioScreen from './screens/CadastroAnuncioScreen';
 import DetalheScreen from './screens/DetalheScreen';
 import { RecuperarSenhaScreen } from './screens/RecuperarSenhaScreen';
 import ListaPorCategoria from './components/Page/ListaPorCategoria';
@@ -45,7 +46,7 @@ const CustomDrawerNavigation = (props) => {
 // drawer stack
 const DrawerStack = createDrawerNavigator({
     Home: {    screen: HomePage   },
-    SettingsPage: {    screen: SettingsPage, navigationOptions: { headerMode: false}  },
+    CadastroAnuncio: {    screen: CadastroAnuncioScreen, navigationOptions: { title: 'Cadastre um Anúncio' }  },
   },
   {
     drawerPosition: 'left',
