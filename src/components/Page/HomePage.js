@@ -22,6 +22,22 @@ class HomePage extends Component {
 
     }   
 
+    componentDidMount() {
+        this.retrieveData()
+    }
+    retrieveData = async () => {
+        try {
+          await AsyncStorage.setItem('xx', 'name')
+          const name = await AsyncStorage.getItem('xx')
+    
+          if (name !== null) {
+            // this.setState({ name })
+            console.log(name)
+          }
+        } catch (e) {
+          alert('Failed to load name.')
+        }
+      }
     exibirCategoria(idCategoria) {
         //const categoria = this.buscaPorId(idCategoria);
         //console.log(this.props);

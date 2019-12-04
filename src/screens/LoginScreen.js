@@ -8,6 +8,8 @@ import { NavigationActions } from 'react-navigation';
 
 import HomePage from './../components/Page/HomePage';
 import CadastroUsuarioComponent from '../components/Page/CadastroUsuarioComponent';
+
+const URI = 'http://192.168.0.107:8080/'
 export class LoginScreen extends React.Component {
     
     //static navigationOptions = { header: null }
@@ -23,41 +25,65 @@ export class LoginScreen extends React.Component {
 
 
     }
+    
+    
+      
+    
+
+    selecionaUsuario(token){ 
+        fetch(URI+'identity?token='+token,
+            {
+                method: 'GET',
+                headers:{
+                    Accept: 'application/json'
+                }
+            }            
+        )
+        .then((response) => response.json())
+        .then((user) => {
+            AsyncStorage.setItem('usuario', user[0].nome)                
+            AsyncStorage.setItem('usuarioId', user[0].id)                
+            AsyncStorage.setItem('foto', user[0].foto)  
+            AsyncStorage.getItem('usuario').then((value) => {
+                console.warn(value);
+            });
+
+            this.props.navigation.navigate('Home')
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+    }
 
     efetuarLogin(){
-
-        this.props.navigation.navigate('Home')
-
-        // const uri = "http://192.168.0.107:8080/oauth";
+        // this.props.navigation.navigate('Home')
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
                 grant_type: "password",
-                login: this.state.usuario,
-                senha: this.state.senha
+                username: '1',// this.state.usuario,
+                password: '1234' //this.state.senha
             }),
             headers: new Headers({
                 'Content-type': 'application/json',
                 'Authorization': 'Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==',
-                Accept: 'application/json'
+                'Accept': 'application/json'
             })
         }
-        
-        /*fetch("http://192.168.0.107:8080/oauth", requestInfo)
+        fetch(URI+"oauth", requestInfo)
             .then(response => {
-                console.log(response)
                 if(response.ok)
                     return response.text();
                 throw new Error("Não foi possível efetuar login.")
             })
-            .then(token => {
-                AsyncStorage.setItem('token', token)
-                AsyncStorage.setItem('usuario', this.state.usuario)                
-              
-                this.props.navigation.replace('HomePage')
-                return AsyncStorage.getItem('token');
+            .then(token => {         
+                tk = JSON.parse(token)  
+                AsyncStorage.setItem('token', tk.access_token)
+                return this.selecionaUsuario(tk.access_token);
+                // return AsyncStorage.getItem('token');
             })
-            .catch(e => this.setState({mensagem: e.message}))*/
+            .catch(e => this.setState({mensagem: e.message}))
     }
 
     render() {      

@@ -5,6 +5,7 @@ import CheckBox from 'react-native-check-box';
 import CadastroUsuarioComponent from '../components/Page/CadastroUsuarioComponent';
 import CadastroPestadorComponent from '../components/Page/CadastroPestadorComponent';
 import { Text } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
 
 export default class CadastroScreen extends React.Component {
 
@@ -47,7 +48,9 @@ export default class CadastroScreen extends React.Component {
                             isChecked={this.state.formPrestador}
                             leftText={"Pessoa Jurídica"}
                         />
+                        
                     </View>
+
                     
                     {this.state.formUsuario === true ?
                         <CadastroUsuarioComponent navigation={this.props.navigation} />:

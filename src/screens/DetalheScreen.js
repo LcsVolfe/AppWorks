@@ -33,9 +33,8 @@ class DetalheScreen extends Component {
         )
         .then((response) => response.json())
         .then((responseJson) => {
-            // console.log(responseJson)
+            console.log(responseJson)
             this.setState({anuncio: responseJson})
-            console.log(this.state.anuncio.usuario.nome_fantasia)
         })
         .catch((error) => {
             console.log(error)
@@ -50,7 +49,6 @@ class DetalheScreen extends Component {
     }
 
     render() {
-        
         return (
             <SafeAreaView style={styles.container}>            
                 <ScrollView style={styles.scrollView}>
@@ -63,10 +61,10 @@ class DetalheScreen extends Component {
                             <Text style={styles.titulo}>{(this.state.anuncio != null)?this.state.anuncio.titulo:''}</Text>  
                             <Text style={styles.sectionTitle}>Descrição:</Text>                        
                             <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.descricao:''}</Text>  
-                            <Text style={styles.sectionTitle}>Prestador:</Text>                        
+                            {/* <Text style={styles.sectionTitle}>Prestador:</Text>                        
                             <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.usuario.descricao:''}</Text>
-                            <Text style={styles.sectionTitle}>Experiências:</Text>                        
-                            <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.usuario.experiencias:''}</Text>
+                            <Text style={styles.sectionTitle}>Experiências:</Text>                         */}
+                            {/* <Text style={styles.descricao}>{(this.state.anuncio != null)?this.state.anuncio.usuario.experiencias:''}</Text> */}
                         </View>
                     </View>
                 </ScrollView>
@@ -96,15 +94,18 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     row:{
-        backgroundColor: '#bacbe4',
+        backgroundColor: '#a0b9df',
+        marginTop: 40,
         padding: 20,
         flexDirection: 'column',
+        minHeight: height*0.3
     },
     image: {
         width: width*0.4, 
         height: width*0.4,
         marginLeft: width*0.3,
-        marginTop: 40
+        marginTop: 40,
+        marginBottom: 40
     },
     BtnOrcamento: { 
         width: '80%', 
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         alignSelf: 'flex-start',
-        marginTop: 5,
+        marginTop: 25,
         fontSize: 16
     }
 

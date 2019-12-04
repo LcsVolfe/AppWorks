@@ -3,26 +3,24 @@ import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Header, SearchBar } from 'react-native-elements';
 import { Left, Right, Icon } from 'native-base';
 import { withNavigation } from 'react-navigation'
+import AsyncStorage from '@react-native-community/async-storage';
 
 export class HeaderComponent extends Component {
 
-
-    /*static navigationOptions = {
-        drawerIcon: ({ tintColor }) => (
-            <Icon name="settings" style={{ fontSize: 24, color: tintColor }} />
-        )
-    }*/
 
     constructor(props) {
         super(props);
         this.state = {
             search: '',
-            searchView: false
+            searchView: false,
+            usuario: ''
         }
     }
 
     updateSearch = search => {this.setState({ search })};
 
+
+    
     render () {
         const { search } = this.state;
         const searchContainer =

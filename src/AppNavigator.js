@@ -3,6 +3,7 @@ import { Platform, StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions,
 import { createAppContainer, createSwitchNavigator, StackNavigator } from 'react-navigation';
 import {createDrawerNavigator, DrawerNavigatorItems} from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import LoginScreen from './screens/LoginScreen';
 import HomePage from './components/Page/HomePage';
@@ -20,6 +21,11 @@ const { width } = Dimensions.get("window");
 
 
 const CustomDrawerNavigation = (props) => {  
+  let user;
+  AsyncStorage.getItem('usuario').then(data => {
+    user = data
+  }, err => console.log(err))
+
   return (
     <SafeAreaView style={{ flex: 1 }} >
       <View style={styles.containerFoto}>
@@ -27,7 +33,7 @@ const CustomDrawerNavigation = (props) => {
           <Image source={require('../resources/img/no-image.png')} style={styles.imgMenu} />
         </View>
         <View style={styles.nomeUsuario}>
-          <Text>John Doe</Text>
+          <Text>user</Text>
         </View>
       </View>
       <ScrollView>

@@ -8,8 +8,24 @@ import ImagePicker from 'react-native-image-picker';
 import { TextInputMask } from 'react-native-masked-text';
 import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
+import * as Yup from 'yup';
 
-import HeaderComponent from './HeaderComponent';
+
+const validationSchema = Yup.object().shape({
+    username: Yup.string()
+        .label('Email')
+        .email('E-mail inválido')
+        .required('Campo obrigatório'),
+    password: Yup.string()
+        .label('Senha')
+        .required('Campo obrigatório')
+        .min(4, 'mínimo 4 caracteres'),  
+    razao_social: Yup.string()
+    .label('Razão Social')
+    .required('Campo obrigatório')
+    .min(4, 'mínimo 4 caracteres'),  
+});
+
 
 const Toast = (props) => {
     if (props.visible) {
@@ -25,12 +41,16 @@ const Toast = (props) => {
     return null;
 };
 
+const API = 'http://192.168.0.107:8080/'
+
 class CadastroPestadorComponent extends Component {
     static navigationOptions = {
         drawerIcon: ({ tintColor }) => (
             <Icon name="home" style={{ fontSize: 24, color: tintColor }} />
         )
     }
+
+    imgData;
     
     constructor() {
         super();
@@ -59,9 +79,29 @@ class CadastroPestadorComponent extends Component {
         });
     };
 
+    checkUser(text){ 
+        console.log(text)
+        fetch(API+'usuario?usuario='+text,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        ).then((response) => response.json())
+        .then((responseJson) => { 
+            console.log(responseJson)
+        }).catch((error) =>{
+            console.log(error)
+        })
+    }
+
+
     cadastrarUsuario(values){
-        fetch(
-            'http://192.168.0.107:8080/usuario',
+        values.foto = this.imgData;
+        values.nome = values.nome_fantasia;
+        fetch(API+'usuario',
             {
                 method: 'POST',
                 headers: {
@@ -71,12 +111,13 @@ class CadastroPestadorComponent extends Component {
                 body: JSON.stringify(values)
             }
         ).then((response) => response.json())
-        .then((responseJson) => {
+        .then((responseJson) => { 
             this.handleButtonPress()
             this.props.navigation.navigate('LoginScreen')
         }).catch((error) =>{
             console.log(error)
         })
+
     }
 
     selectPhoto() {
@@ -92,7 +133,7 @@ class CadastroPestadorComponent extends Component {
 
 
         ImagePicker.showImagePicker(options, response => {
-            console.log('Response = ', response)
+            // console.log('Response = ', response)
 
             if (response.didCancel) {
                 console.log('Usuário cancelou!')
@@ -101,6 +142,7 @@ class CadastroPestadorComponent extends Component {
             } else {
                 let source = {uri: response.uri};
                 this.setState({imageSource: source})
+                this.imgData = response.data;
                 console.log('ImageSource: '+this.state.imageSource)
             }
         })
@@ -126,22 +168,24 @@ class CadastroPestadorComponent extends Component {
                             data_nascimento: '10-10-1990' 
                         }}
                         onSubmit={values => this.cadastrarUsuario(values)}
+                        validationSchema={validationSchema}
                     >
-                        {props => (
+                        {({ handleChange, values, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur, }) => (
                         <View style={styles.form}>
                             <Text style={styles.sectionTitle}>Dados Empresariais</Text>                        
                             <TextInput
-                                onChangeText={props.handleChange('razao_social')}
+                                onChangeText={handleChange('razao_social')}
                                 // onBlur={props.handleBlur('razao_social')}
-                                value={props.values.razao_social}
+                                value={values.razao_social}
                                 style={styles.inputs}
                                 placeholder='Razão Social'
                             />
+                           <Text style={{ color: 'red' }}>{errors.razao_social}</Text>
 
                             <TextInput
-                                onChangeText={props.handleChange('nome_fantasia')}
+                                onChangeText={handleChange('nome_fantasia')}
                                 // onBlur={props.handleBlur('nome_fantasia')}
-                                value={props.values.nome_fantasia}
+                                value={values.nome_fantasia}
                                 style={styles.inputs}
                                 placeholder='Nome Fantasia'
                             />
@@ -155,7 +199,8 @@ class CadastroPestadorComponent extends Component {
                                     withDDD: true,
                                     dddMask: '(99) '
                                 }}
-                                value={props.values.telefone}
+                                value={values.telefone}
+                                // onChangeText={handleChange('telefone')}
                             />
 
                            
@@ -164,40 +209,42 @@ class CadastroPestadorComponent extends Component {
                 
                            
                             <TextInput
-                                onChangeText={props.handleChange('experiencias')}
+                                onChangeText={handleChange('experiencias')}
                                 // onBlur={props.handleBlur('experiencias')}
-                                value={props.values.experiencias}
-                                style={[styles.inputs, styles.inputDuplo]}                                
+                                value={values.experiencias}
+                                style={[styles.inputs]}                                
                                 placeholder='Descreva detalhadamente suas experiências profissionais'
                             />
                             <TextInput
-                                onChangeText={props.handleChange('descricao')}
+                                onChangeText={handleChange('descricao')}
                                 // onBlur={props.handleBlur('suaDescricao')}
-                                value={props.values.descricao}
-                                style={[styles.inputs, styles.inputDuplo]}                                
+                                value={values.descricao}
+                                style={[styles.inputs]}                                
                                 placeholder='Sua descrição'
                             />
 
                             <Text style={styles.sectionTitle}>Conta </Text>                        
 
                             <TextInput
-                                onChangeText={props.handleChange('username')}
-                                // onBlur={handleBlur('username')}
-                                value={props.values.username}
+                                onChangeText={handleChange('username')}
+                                // onBlur={text => this.checkUser(text)}
+                                value={values.username}
                                 style={styles.inputs}
                                 placeholder='Email'
                                 name='email'
                             />
+                           <Text style={{ color: 'red' }}>{errors.username}</Text>
 
 
                             <TextInput
-                                onChangeText={props.handleChange('password')}
-                                value={props.values.password}
+                                onChangeText={handleChange('password')}
+                                value={values.password}
                                 style={styles.inputs}
                                 placeholder='Senha'
                                 secureTextEntry
                                 // onBlur={handleBlur('password')}
                             />
+                           <Text style={{ color: 'red' }}>{errors.password}</Text>
                         
                             
 
@@ -221,7 +268,7 @@ class CadastroPestadorComponent extends Component {
                                     color='#ea4335'
                                 />
                                 <Button 
-                                    onPress={props.handleSubmit} 
+                                    onPress={handleSubmit} 
                                     title="Salvar" 
                                     color='#00a109'
                                 />

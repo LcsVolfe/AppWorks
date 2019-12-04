@@ -40,7 +40,7 @@ export default class ListaPorCategoria extends React.Component {
         )
         .then((response) => response.json())
         .then((responseJson) => {
-            // console.log(responseJson)
+            console.log(responseJson)
             this.setState({anuncios: responseJson})
         })
         .catch((error) => {
@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
     },  
     tituloCategoria: {
         backgroundColor: 'lightgrey',
-        padding: 5
+        padding: 5,
+        fontWeight: 'bold'
     },
     image: {
         width: width*0.2, 
