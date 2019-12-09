@@ -26,7 +26,7 @@ export default class ListaPorCategoria extends React.Component {
     
     getAds(idCategoria){
         fetch(
-            'http://192.168.0.107:8080/anuncio?categoria='+idCategoria,
+            'http://volfesolucoestecnologicas.com.br/API_AppWorks/:8080/anuncio?categoria='+idCategoria,
             {
                 method: 'GET',
                 headers:{
@@ -65,10 +65,11 @@ export default class ListaPorCategoria extends React.Component {
                                     style={styles.box}
                                     onPress={ () => console.log(props.navigate('DetalheAnuncio', {idAnuncio: perfil.id})) }
                                     >
-                                        <Image 
-                                            source={require('../../../resources/img/no-image.png')}
-                                            style={styles.image}
-                                        ></Image>
+                                        {perfil.foto ? 
+                                            <Image source={{uri: `data:image/gif;base64,${perfil.foto}`}} style={styles.image}></Image>:
+                                            <Image source={require('../../../resources/img/no-image.png')}style={styles.image}></Image>                    
+                                        }
+                                        
                                         <View style={{width: '60%'}}>
                                             <Text style={styles.tituloCategoria}>{perfil.titulo}</Text>
                                             <Text style={styles.descricao} >{perfil.descricao}</Text>
@@ -97,7 +98,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: width*0.2, 
-        height: width*0.2
+        height: width*0.2,
+        borderRadius: width*0.5
     },
     box: {
         marginVertical: 15,

@@ -41,7 +41,7 @@ const Toast = (props) => {
     return null;
 };
 
-const API = 'http://192.168.0.107:8080/'
+const API = 'http://volfesolucoestecnologicas.com.br/API_AppWorks/:8080/'
 
 class CadastroPestadorComponent extends Component {
     static navigationOptions = {

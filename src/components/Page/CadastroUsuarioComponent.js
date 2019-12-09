@@ -81,7 +81,7 @@ class CadastroUsuarioComponent extends Component {
     cadastrarUsuario(values){
 
         fetch(
-            'http://192.168.0.107:8080/usuario',
+            'http://volfesolucoestecnologicas.com.br/API_AppWorks/:8080/usuario',
             {
                 method: 'POST',
                 headers: {

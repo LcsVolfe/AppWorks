@@ -9,7 +9,7 @@ import { NavigationActions } from 'react-navigation';
 import HomePage from './../components/Page/HomePage';
 import CadastroUsuarioComponent from '../components/Page/CadastroUsuarioComponent';
 
-const URI = 'http://192.168.0.107:8080/'
+const URI = 'http://volfesolucoestecnologicas.com.br/API_AppWorks/:8080/'
 export class LoginScreen extends React.Component {
     
     //static navigationOptions = { header: null }
@@ -26,9 +26,7 @@ export class LoginScreen extends React.Component {
 
     }
     
-    
-      
-    
+       
 
     selecionaUsuario(token){ 
         fetch(URI+'identity?token='+token,
@@ -40,14 +38,10 @@ export class LoginScreen extends React.Component {
             }            
         )
         .then((response) => response.json())
-        .then((user) => {
+        .then((user) => { 
             AsyncStorage.setItem('usuario', user[0].nome)                
             AsyncStorage.setItem('usuarioId', user[0].id)                
-            AsyncStorage.setItem('foto', user[0].foto)  
-            AsyncStorage.getItem('usuario').then((value) => {
-                console.warn(value);
-            });
-
+            AsyncStorage.setItem('foto', user[0].foto)            
             this.props.navigation.navigate('Home')
         })
         .catch((error) => {
@@ -62,8 +56,8 @@ export class LoginScreen extends React.Component {
             method: 'POST',
             body: JSON.stringify({
                 grant_type: "password",
-                username: '1',// this.state.usuario,
-                password: '1234' //this.state.senha
+                username: this.state.usuario,
+                password: this.state.senha
             }),
             headers: new Headers({
                 'Content-type': 'application/json',

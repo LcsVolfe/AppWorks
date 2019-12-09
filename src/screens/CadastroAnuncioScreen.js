@@ -6,6 +6,7 @@ import { Text } from 'react-native-elements';
 import { Icon } from 'native-base';
 import { Formik } from 'formik';
 import RNPickerSelect from 'react-native-picker-select';
+import { HeaderComponent } from '../components/Page/HeaderComponent';
 
 const Toast = (props) => {
     if (props.visible) {
@@ -66,7 +67,7 @@ export default class CadastroAnuncioScreen extends React.Component {
     cadastrarAnuncio(values){
 
         fetch(
-            'http://192.168.0.107:8080/anuncio',
+            'http://volfesolucoestecnologicas.com.br/API_AppWorks/:8080/anuncio',
             {
                 method: 'POST',
                 headers: {
@@ -91,6 +92,7 @@ export default class CadastroAnuncioScreen extends React.Component {
                 <Toast visible={this.state.visible} message="Anúncio criado com sucesso!" />
 
                 <ScrollView style={styles.container} >              
+                    <HeaderComponent navigation={this.props.navigation} />
                     <Text h4 style={{marginLeft: '5%'}}>Cadastro de Anúncio</Text>
                     <View style={styles.separator} />                   
                     

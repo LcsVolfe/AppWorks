@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, FlatList,ScrollView, Image, Button, StyleSheet, TextInput, SafeAreaView, Dimensions, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
 import { Text } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import HeaderComponent from './HeaderComponent';
 const width = Dimensions.get('screen').width;
@@ -22,22 +23,21 @@ class HomePage extends Component {
 
     }   
 
-    componentDidMount() {
-        this.retrieveData()
+    componentDidMount() {        
+        x = this.displayData();
+        // console.log(x)
+        // console.log(AsyncStorage.getItem('usuario'))
     }
-    retrieveData = async () => {
-        try {
-          await AsyncStorage.setItem('xx', 'name')
-          const name = await AsyncStorage.getItem('xx')
+    displayData = async ()=>{  
+        // try{  
+          return await AsyncStorage.getItem('usuario');  
+        //   alert(user);  
+        // }  
+        // catch(error){  
+        // //   alert(error)  
+        // }  
+      }  
     
-          if (name !== null) {
-            // this.setState({ name })
-            console.log(name)
-          }
-        } catch (e) {
-          alert('Failed to load name.')
-        }
-      }
     exibirCategoria(idCategoria) {
         //const categoria = this.buscaPorId(idCategoria);
         //console.log(this.props);
